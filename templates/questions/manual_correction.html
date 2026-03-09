@@ -1,0 +1,29 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Correct Question Text - Q{{ object.question_number }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="premium-card animate-entrance">
+            <h4 class="page-heading"><i class="bi bi-pencil-square"></i> Manual Text Correction - Q{{ object.question_number }}{{ object.sub_part }}</h4>
+            <div class="alert-dark-glass alert-info mb-3">
+                <i class="bi bi-info-circle me-1"></i> Edit the question text if it was incorrectly extracted. This does not reprocess the entire paper.
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="mb-3">
+                    <label for="{{ field.id_for_label }}" style="display:block;font-size:0.82rem;font-weight:600;color:#374151;margin-bottom:0.4rem;" class="fw-bold">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+                {% endfor %}
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn-glow-success">Save Correction</button>
+                    <a href="{% url 'questions:detail' pk=object.pk %}" class="btn-glass">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

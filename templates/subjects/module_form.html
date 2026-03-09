@@ -1,0 +1,94 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}{% if object %}Edit{% else %}Create{% endif %} Module - PYQ Analyzer{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="max-width: 720px;">
+
+    <div class="premium-card animate-entrance p-4 p-md-5">
+
+        <h1 class="page-heading mb-2" data-word-stagger>
+            <i class="bi bi-puzzle me-2" style="color: var(--text-secondary);"></i>
+            {% if object %}Edit Module{% else %}Add Module{% endif %}
+        </h1>
+
+        {% if subject %}
+            <p class="mb-4" style="color: var(--text-muted);">{{ subject.name }}</p>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+
+            <!-- Module Identity -->
+            <div class="form-section mb-4">
+                <h5 class="form-section-title">
+                    <i class="bi bi-hash me-2"></i>Module Identity
+                </h5>
+
+                <div class="mb-3">
+                    <label style="display:block;font-size:0.82rem;font-weight:600;color:#374151;margin-bottom:0.4rem;">Module Name *</label>
+                    {{ form.name }}
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label style="display:block;font-size:0.82rem;font-weight:600;color:#374151;margin-bottom:0.4rem;">Module Number *</label>
+                        {{ form.number }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label style="display:block;font-size:0.82rem;font-weight:600;color:#374151;margin-bottom:0.4rem;">Weightage (%)</label>
+                        {{ form.weightage }}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label style="display:block;font-size:0.82rem;font-weight:600;color:#374151;margin-bottom:0.4rem;">Description</label>
+                    {{ form.description }}
+                </div>
+            </div>
+
+            <!-- Topics & Keywords -->
+            <div class="form-section mb-4">
+                <h5 class="form-section-title">
+                    <i class="bi bi-tags me-2"></i>Topics &amp; Keywords
+                </h5>
+
+                <div class="mb-3">
+                    <label style="display:block;font-size:0.82rem;font-weight:600;color:#374151;margin-bottom:0.4rem;">Topics</label>
+                    {{ form.topics_text }}
+                    {% if form.topics_text.help_text %}
+                        <small style="color: var(--text-muted);">{{ form.topics_text.help_text }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label style="display:block;font-size:0.82rem;font-weight:600;color:#374151;margin-bottom:0.4rem;">Keywords</label>
+                    {{ form.keywords_text }}
+                    {% if form.keywords_text.help_text %}
+                        <small style="color: var(--text-muted);">{{ form.keywords_text.help_text }}</small>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="d-flex gap-3 mt-4">
+                <button type="submit" class="btn btn-glow flex-fill">
+                    <i class="bi bi-check-lg me-1"></i>
+                    {% if object %}Update{% else %}Create{% endif %} Module
+                </button>
+                {% if subject %}
+                    <a href="{% url 'subjects:detail' pk=subject.pk %}" class="btn btn-glass flex-fill text-center">
+                        <i class="bi bi-x-lg me-1"></i> Cancel
+                    </a>
+                {% else %}
+                    <a href="{% url 'subjects:list' %}" class="btn btn-glass flex-fill text-center">
+                        <i class="bi bi-x-lg me-1"></i> Cancel
+                    </a>
+                {% endif %}
+            </div>
+        </form>
+
+    </div>
+</div>
+{% endblock %}

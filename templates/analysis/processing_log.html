@@ -1,0 +1,140 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Processing Log - {{ paper.title }}{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="breadcrumb-dark">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'papers:processing_status' subject_pk=paper.subject.pk %}">{{ paper.subject.name }}</a></li>
+        <li class="breadcrumb-item active">Processing Log</li>
+    </ol>
+</nav>
+
+<h3 class="page-heading" data-word-stagger><i class="bi bi-journal-text"></i> Processing Log: {{ paper.title }}</h3>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="premium-card animate-entrance mb-3">
+            <h6 class="fw-bold mb-3" style="color:var(--text-primary);">Paper Info</h6>
+            <table style="width:100%;">
+                <tr><td class="text-muted py-1" style="width:45%;">Status</td><td class="py-1">
+                    {% if paper.status == 'completed' %}<span class="badge-glow-success">Completed</span>
+                    {% elif paper.status == 'failed' %}<span class="badge-glow-danger">Failed</span>
+                    {% else %}<span class="badge-glow-warning">{{ paper.status }}</span>{% endif %}
+                </td></tr>
+                <tr><td class="text-muted py-1">Year</td><td class="py-1" style="color:var(--text-secondary);">{{ paper.year|default:"-" }}</td></tr>
+                <tr><td class="text-muted py-1">Questions</td><td class="py-1" style="color:var(--text-secondary);">{{ paper.questions_extracted }}</td></tr>
+                <tr><td class="text-muted py-1">Corrections</td><td class="py-1" style="color:var(--text-secondary);">{{ paper.correction_count }}</td></tr>
+            </table>
+        </div>
+        {% if paper.detected_subject_code or paper.detected_subject_name %}
+        <div class="premium-card animate-entrance">
+            <h6 class="fw-bold mb-3" style="color:var(--text-primary);">Gemini-Detected Metadata</h6>
+            <table style="width:100%;">
+                <tr><td class="text-muted py-1" style="width:45%;">Subject Code</td><td class="py-1" style="color:var(--text-secondary);">{{ paper.detected_subject_code|default:"-" }}</td></tr>
+                <tr><td class="text-muted py-1">Subject Name</td><td class="py-1" style="color:var(--text-secondary);">{{ paper.detected_subject_name|default:"-" }}</td></tr>
+                <tr><td class="text-muted py-1">Exam Year</td><td class="py-1" style="color:var(--text-secondary);">{{ paper.detected_exam_year|default:"-" }}</td></tr>
+                <tr><td class="text-muted py-1">Exam Month</td><td class="py-1" style="color:var(--text-secondary);">{{ paper.detected_exam_month|default:"-" }}</td></tr>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+    <div class="col-md-8">
+        <div class="premium-card animate-entrance">
+            <h6 class="fw-bold mb-3" style="color:var(--text-primary);">Pipeline Details</h6>
+            {% if log_data %}
+            <table style="width:100%;">
+                <tr><td class="text-muted py-2" style="width:40%;">PDF Type</td><td class="py-2">
+                    {% if log_data.pdf_type == 'image' %}
+                    <span class="badge-glow-info">Image (Gemini Vision)</span>
+                    {% else %}
+                    <span class="badge-glow-success">Text (Gemini Text)</span>
+                    {% endif %}
+                </td></tr>
+                <tr><td class="text-muted py-2">Pipeline Used</td><td class="py-2"><code>{{ log_data.pipeline_used|default:"-" }}</code></td></tr>
+                <tr><td class="text-muted py-2">Character Count</td><td class="py-2" style="color:var(--text-secondary);">{{ log_data.char_count|default:"-" }}</td></tr>
+                <tr><td class="text-muted py-2">Garbled Text</td><td class="py-2">
+                    {% if log_data.has_garbled %}<span style="color:#FBBF24;">Yes</span>
+                    {% else %}<span style="color:#34D399;">No</span>{% endif %}
+                </td></tr>
+                <tr><td class="text-muted py-2">Page Count</td><td class="py-2" style="color:var(--text-secondary);">{{ log_data.page_count|default:"-" }}</td></tr>
+                <tr><td class="text-muted py-2">Questions Extracted</td><td class="py-2" style="color:var(--text-secondary);">{{ log_data.questions_extracted|default:"-" }}</td></tr>
+                <tr><td class="text-muted py-2">Module Corrections</td><td class="py-2">
+                    {% if log_data.correction_count > 0 %}
+                    <span style="color:#FBBF24;">{{ log_data.correction_count }} corrections</span>
+                    {% else %}
+                    <span style="color:#34D399;">None needed</span>
+                    {% endif %}
+                </td></tr>
+            </table>
+
+            {% if log_data.warnings %}
+            <h6 class="fw-bold mt-4 mb-2" style="color:#FBBF24;">Warnings</h6>
+            {% for warning in log_data.warnings %}
+            <div class="alert-dark-glass alert-warning mb-2" style="padding:0.5rem 0.75rem;font-size:0.85rem;">{{ warning }}</div>
+            {% endfor %}
+            {% endif %}
+
+            {% if log_data.corrections_detail %}
+            <h6 class="fw-bold mt-4 mb-2" style="color:var(--text-primary);">Module Corrections Applied</h6>
+            {% for detail in log_data.corrections_detail %}
+            <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;padding:0.4rem 0.75rem;margin-bottom:0.35rem;font-size:0.85rem;">
+                <code>{{ detail }}</code>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% else %}
+            <p class="text-muted">No processing log available.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% if questions %}
+<h4 class="fw-bold mt-4 mb-3" style="color:var(--text-primary);">Extracted Questions ({{ questions|length }})</h4>
+<div class="premium-card animate-entrance" style="padding:0;overflow:hidden;">
+    <div class="table-responsive">
+        <table style="width:100%;border-collapse:separate;border-spacing:0;">
+            <thead>
+                <tr style="background:var(--bg-secondary);">
+                    <th style="padding:0.85rem 1rem;font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);border-bottom:1px solid var(--border-color);">Q#</th>
+                    <th style="padding:0.85rem 1rem;font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);border-bottom:1px solid var(--border-color);">Sub</th>
+                    <th style="padding:0.85rem 1rem;font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);border-bottom:1px solid var(--border-color);">Part</th>
+                    <th style="padding:0.85rem 1rem;font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);border-bottom:1px solid var(--border-color);">Module</th>
+                    <th style="padding:0.85rem 1rem;font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);border-bottom:1px solid var(--border-color);">Text</th>
+                    <th style="padding:0.85rem 1rem;font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);border-bottom:1px solid var(--border-color);">Marks</th>
+                    <th style="padding:0.85rem 1rem;font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);border-bottom:1px solid var(--border-color);">Status</th>
+                    <th style="padding:0.85rem 1rem;font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);border-bottom:1px solid var(--border-color);">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for q in questions %}
+                <tr>
+                    <td style="padding:0.85rem 1rem;border-bottom:1px solid var(--border-color);font-size:0.9rem;color:var(--text-secondary);"><strong style="color:var(--text-primary);">{{ q.question_number }}</strong></td>
+                    <td style="padding:0.85rem 1rem;border-bottom:1px solid var(--border-color);font-size:0.9rem;color:var(--text-secondary);">{{ q.sub_part|default:"-" }}</td>
+                    <td style="padding:0.85rem 1rem;border-bottom:1px solid var(--border-color);font-size:0.9rem;color:var(--text-secondary);">{{ q.part }}</td>
+                    <td style="padding:0.85rem 1rem;border-bottom:1px solid var(--border-color);font-size:0.9rem;color:var(--text-secondary);">{{ q.module.number|default:"-" }}</td>
+                    <td style="padding:0.85rem 1rem;border-bottom:1px solid var(--border-color);font-size:0.9rem;color:var(--text-secondary);">{{ q.text|truncatechars:120 }}</td>
+                    <td style="padding:0.85rem 1rem;border-bottom:1px solid var(--border-color);font-size:0.9rem;color:var(--text-secondary);">{{ q.marks }}</td>
+                    <td style="padding:0.85rem 1rem;border-bottom:1px solid var(--border-color);font-size:0.9rem;color:var(--text-secondary);">
+                        {% if q.needs_review %}
+                        <span class="confidence-dot confidence-dot-red" title="Needs Review"></span>
+                        {% elif q.module_manually_set %}
+                        <span class="confidence-dot confidence-dot-yellow" title="Manually Corrected"></span>
+                        {% else %}
+                        <span class="confidence-dot confidence-dot-green" title="OK"></span>
+                        {% endif %}
+                    </td>
+                    <td style="padding:0.85rem 1rem;border-bottom:1px solid var(--border-color);font-size:0.9rem;color:var(--text-secondary);">
+                        <a href="{% url 'questions:correct' pk=q.pk %}" class="btn-glass" style="padding:0.25rem 0.5rem;font-size:0.75rem;" title="Edit">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

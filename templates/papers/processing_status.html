@@ -1,0 +1,597 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Processing Status - {{ subject.name }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3" data-aos="fade-up">
+    <div>
+        <h3 class="page-heading mb-1" data-word-stagger><i class="bi bi-gear" style="color:var(--accent-indigo);"></i> {{ subject.name }}</h3>
+        <span style="color:var(--text-secondary);font-size:0.9rem;">{{ subject.code }}</span>
+    </div>
+    <div class="d-flex gap-2 flex-wrap">
+        {% if papers_pending > 0 %}
+        <form method="post" action="{% url 'analysis:manual_analyze' subject_pk=subject.pk %}" id="startForm">
+            {% csrf_token %}
+            <button type="submit" class="btn-start-processing ripple-btn" id="startBtn">
+                <i class="bi bi-play-fill me-1"></i> Start Processing (<span id="pendingBtnCount">{{ papers_pending }}</span> papers)
+            </button>
+        </form>
+        {% endif %}
+        <form method="post" action="{% url 'analysis:reset_analyze' subject_pk=subject.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn-glass" onclick="return confirm('Reset all papers to pending?')">
+                <i class="bi bi-arrow-counterclockwise me-1"></i> Reset
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Guest Mode Banner -->
+{% if not user.is_authenticated %}
+<div class="guest-banner" data-aos="fade-up" data-aos-delay="50">
+    <i class="bi bi-exclamation-triangle-fill guest-banner-icon"></i>
+    <span class="guest-banner-text">You're using guest mode. <a href="{% url 'users:login' %}">Sign in</a> to save your progress and access all features.</span>
+</div>
+{% endif %}
+
+<!-- Live Status Indicator -->
+<div id="liveIndicator" class="d-none mb-3" style="display:flex !important; align-items:center; gap:0.75rem; background:rgba(99,102,241,0.06); border:1px solid rgba(99,102,241,0.15); border-radius:14px; padding:0.85rem 1.25rem;">
+    <span class="processing-spinner"></span>
+    <span style="color:var(--text-secondary); font-size:0.9rem;" id="liveStatus">Live updates active </span>
+    <span class="ms-auto" style="color:var(--text-muted); font-size:0.8rem;" id="lastUpdated"></span>
+</div>
+
+<!-- Step Progress Indicator -->
+<div class="premium-card mb-4">
+    <div class="step-progress-indicator" id="step-indicator">
+        <div class="step-progress-line"><div class="step-progress-line-fill" id="stepLineFill" style="width:0%"></div></div>
+        <div class="step-progress-item" data-step="1">
+            <div class="step-progress-dot active" id="stepDot1"><i class="bi bi-cloud-upload"></i></div>
+            <span class="step-progress-label">Upload</span>
+        </div>
+        <div class="step-progress-item" data-step="2">
+            <div class="step-progress-dot" id="stepDot2"><i class="bi bi-cpu"></i></div>
+            <span class="step-progress-label">Analyze</span>
+        </div>
+        <div class="step-progress-item" data-step="3">
+            <div class="step-progress-dot" id="stepDot3"><i class="bi bi-diagram-3"></i></div>
+            <span class="step-progress-label">Cluster</span>
+        </div>
+        <div class="step-progress-item" data-step="4">
+            <div class="step-progress-dot" id="stepDot4"><i class="bi bi-file-earmark-text"></i></div>
+            <span class="step-progress-label">Report</span>
+        </div>
+    </div>
+</div>
+
+<!-- Status Cards -->
+<div class="row g-3 mb-4">
+    <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="100">
+        <div class="stat-card tilt-card">
+            <div class="stat-number" id="totalPapersCount" data-count="{{ papers_total }}">0</div>
+            <div class="stat-label">Total Papers</div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="150">
+        <div class="stat-card tilt-card">
+            <div class="stat-number" id="stat-pending" data-count="{{ papers_pending }}">0</div>
+            <div class="stat-label">Pending</div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="200">
+        <div class="stat-card tilt-card">
+            <div class="stat-number" id="stat-completed" data-count="{{ papers_completed }}">0</div>
+            <div class="stat-label">Completed</div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="250">
+        <div class="stat-card tilt-card">
+            <div class="stat-number" id="stat-processing" data-count="{{ papers_processing }}">0</div>
+            <div class="stat-label">Processing</div>
+        </div>
+    </div>
+</div>
+
+<!-- Overall Progress -->
+<div class="premium-card mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <span style="color:var(--text-secondary);font-size:0.9rem;font-weight:600;">Overall Progress</span>
+        <span style="color:var(--accent-indigo);font-size:0.9rem;font-weight:700;" id="overallProgressText">0%</span>
+    </div>
+    <div class="progress-dark" style="height:8px;">
+        <div class="progress-bar-gradient" id="overallProgressBar" style="width:0%"></div>
+    </div>
+</div>
+
+<!-- Speed Feedback Panel -->
+<div id="speedPanel" class="premium-card mb-4 d-none" style="padding:1rem 1.5rem;">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <div class="d-flex align-items-center gap-3">
+            <div style="text-align:center;">
+                <div style="font-size:1.4rem;font-weight:700;color:var(--accent-indigo);" id="speedPapersPerMin">--</div>
+                <div style="font-size:0.75rem;color:var(--text-muted);">papers/min</div>
+            </div>
+            <div style="width:1px;height:2rem;background:var(--border-color);"></div>
+            <div style="text-align:center;">
+                <div style="font-size:1.4rem;font-weight:700;color:var(--text-primary);" id="speedAvgTime">--</div>
+                <div style="font-size:0.75rem;color:var(--text-muted);">avg sec/paper</div>
+            </div>
+            <div style="width:1px;height:2rem;background:var(--border-color);"></div>
+            <div style="text-align:center;">
+                <div style="font-size:1.4rem;font-weight:700;color:var(--text-primary);" id="speedETA">--</div>
+                <div style="font-size:0.75rem;color:var(--text-muted);">est. remaining</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Papers List -->
+<div class="premium-card" data-aos="fade-up" data-aos-delay="300" style="padding: 0; overflow: hidden;">
+    <div class="module-header d-flex justify-content-between align-items-center" style="padding:1.25rem 1.5rem;border-bottom:1px solid var(--border-color);">
+        <h6 class="mb-0" style="font-weight:700;color:var(--text-primary);"><i class="bi bi-files me-2" style="color:var(--accent-indigo);"></i>Papers (<span id="paperCountLabel">{{ papers_total }}</span>)</h6>
+    </div>
+    <div id="papersList">
+        {% for paper in subject.papers.all %}
+        <div class="paper-item status-{{ paper.status }}" id="paper-{{ paper.id }}"
+             data-paper-id="{{ paper.id }}"
+             data-questions-url="{% url 'questions:list' %}?paper={{ paper.id }}"
+             data-log-url="{% url 'analysis:processing_log' pk=paper.pk %}">
+            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                <div class="flex-grow-1">
+                    <h6 class="mb-1" style="color: var(--text-primary);font-weight:600;">{{ paper.title }}</h6>
+                    <small style="color:var(--text-muted);">{{ paper.year }} | {{ paper.exam_type }}</small>
+                </div>
+                <div class="d-flex align-items-center gap-2 flex-wrap paper-actions" id="actions-{{ paper.id }}">
+                    {% if paper.status == 'completed' %}
+                    <span class="badge-glow-success">Completed</span>
+                    <a href="{% url 'questions:list' %}?paper={{ paper.id }}" class="btn-glass btn-sm" style="padding:0.3rem 0.75rem;font-size:0.8rem;">
+                        <i class="bi bi-list-check"></i> Questions
+                    </a>
+                    <a href="{% url 'analysis:processing_log' pk=paper.pk %}" class="btn-glass btn-sm" style="padding:0.3rem 0.75rem;font-size:0.8rem;">
+                        <i class="bi bi-journal-text"></i> Log
+                    </a>
+                    {% elif paper.status == 'processing' %}
+                    <span class="badge-glow-info badge-pulse d-flex align-items-center gap-1"><span class="processing-spinner"></span> Processing</span>
+                    {% elif paper.status == 'failed' %}
+                    <span class="badge-glow-danger">Failed</span>
+                    {% else %}
+                    <span class="badge-glow-warning">Pending</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="paper-progress-wrap mt-2 {% if paper.status != 'processing' %}d-none{% endif %}" id="progress-{{ paper.id }}">
+                <div class="progress-dark">
+                    <div class="progress-bar-gradient" id="progressBar-{{ paper.id }}" style="width: {{ paper.progress_percent }}%"></div>
+                </div>
+                <small class="text-muted mt-1 d-block" id="statusDetail-{{ paper.id }}">{% if paper.status_detail == 'Analyzing PDF with OCR...' %}Processing with AI...{% else %}{{ paper.status_detail }}{% endif %}</small>
+            </div>
+            {% if paper.status == 'failed' and paper.processing_error %}
+            <div class="mt-2" id="error-{{ paper.id }}">
+                <small style="color: #EF4444;">{{ paper.processing_error|truncatechars:200 }}</small>
+            </div>
+            {% else %}
+            <div class="mt-2 d-none" id="error-{{ paper.id }}"></div>
+            {% endif %}
+            {% if paper.status == 'completed' and paper.correction_count > 0 %}
+            <div class="mt-1">
+                <small style="color: var(--accent-amber);"><i class="bi bi-exclamation-triangle"></i> {{ paper.correction_count }} module corrections applied</small>
+            </div>
+            {% endif %}
+        </div>
+        {% empty %}
+        <div class="empty-state" style="padding:3rem;">
+            <i class="bi bi-inbox" style="font-size:2.5rem;color:var(--text-muted);"></i>
+            <p style="color:var(--text-muted);margin-top:1rem;">No papers uploaded yet.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Action Buttons (shown when any completed) -->
+<div id="completedActions" class="mt-4 d-flex gap-3 flex-wrap {% if not papers_completed %}d-none{% endif %}" data-aos="fade-up">
+    <a href="{% url 'analytics:subject_dashboard' subject_pk=subject.pk %}" class="btn-slide btn-slide-indigo ripple-btn" style="padding:0.7rem 1.5rem;border-radius:12px;">
+        <span><i class="bi bi-bar-chart me-1"></i> View Analytics</span>
+    </a>
+    <a href="{% url 'reports:public_all_modules' subject_pk=subject.pk %}" class="btn-glow-danger ripple-btn">
+        <i class="bi bi-file-earmark-pdf me-1"></i> Download Reports
+    </a>
+    <a href="{% url 'questions:list' %}?subject={{ subject.pk }}" class="btn-glass">
+        <i class="bi bi-list-check me-1"></i> All Questions
+    </a>
+</div>
+
+<!-- Toast notification -->
+<div id="toastContainer" style="position:fixed;bottom:2rem;right:2rem;z-index:9999;display:flex;flex-direction:column;gap:0.75rem;"></div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function() {
+    var SUBJECT_ID = '{{ subject.pk }}';
+    var POLL_INTERVAL = 2000; // 2 seconds (faster for speed feedback)
+    var pollTimer = null;
+    var isPolling = false;
+    var consecutiveErrors = 0;
+    var MAX_ERRORS = 5;
+
+    // Check if any paper is still processing or pending on load
+    var initiallyActive = {{ has_processing|yesno:'true,false' }} || {{ has_pending|yesno:'true,false' }};
+
+    // ---- DOM helpers ----
+    function el(id) { return document.getElementById(id); }
+
+    function showToast(message, type) {
+        var container = el('toastContainer');
+        var toast = document.createElement('div');
+        var colors = {
+            success: { bg: '#FFFFFF', border: 'rgba(16,185,129,0.3)', text: '#059669', left: '#10B981' },
+            info:    { bg: '#FFFFFF', border: 'rgba(99,102,241,0.3)', text: '#4F46E5', left: '#6366F1' },
+            error:   { bg: '#FFFFFF', border: 'rgba(239,68,68,0.3)', text: '#DC2626', left: '#EF4444' }
+        };
+        var c = colors[type] || colors.info;
+        toast.style.cssText = [
+            'background:' + c.bg,
+            'border:1px solid ' + c.border,
+            'border-left:4px solid ' + c.left,
+            'border-radius:12px',
+            'padding:0.9rem 1.25rem',
+            'color:' + c.text,
+            'font-size:0.9rem',
+            'font-weight:500',
+            'box-shadow:0 8px 30px rgba(0,0,0,0.12)',
+            'transform:translateX(120%)',
+            'transition:transform 0.4s cubic-bezier(0.23,1,0.32,1),opacity 0.4s ease',
+            'opacity:0',
+            'max-width:320px',
+            'display:flex',
+            'align-items:center',
+            'gap:0.5rem'
+        ].join(';');
+        toast.innerHTML = message;
+        container.appendChild(toast);
+        setTimeout(function() { toast.style.transform = 'translateX(0)'; toast.style.opacity = '1'; }, 20);
+        setTimeout(function() {
+            toast.style.transform = 'translateX(120%)';
+            toast.style.opacity = '0';
+            setTimeout(function() { if (toast.parentNode) container.removeChild(toast); }, 450);
+        }, 4000);
+    }
+
+    // ---- Badge HTML generators ----
+    function getBadgeHTML(status, paperId, paperQuestionsUrl, paperLogUrl) {
+        switch (status) {
+            case 'completed':
+                return '<span class="badge-glow-success">Completed</span>' +
+                    '<a href="' + paperQuestionsUrl + '" class="btn-glass btn-sm" style="padding:0.3rem 0.75rem;font-size:0.8rem;"><i class="bi bi-list-check"></i> Questions</a>' +
+                    '<a href="' + paperLogUrl + '" class="btn-glass btn-sm" style="padding:0.3rem 0.75rem;font-size:0.8rem;"><i class="bi bi-journal-text"></i> Log</a>';
+            case 'processing':
+                return '<span class="badge-glow-info badge-pulse d-flex align-items-center gap-1"><span class="processing-spinner"></span> Processing</span>';
+            case 'failed':
+                return '<span class="badge-glow-danger">Failed</span>';
+            default:
+                return '<span class="badge-glow-warning">Pending</span>';
+        }
+    }
+
+    // ---- Step indicator update ----
+    function updateStepIndicator(stats) {
+        var total = stats.total || (stats.pending + stats.processing + stats.completed + stats.failed) || 1;
+        var completed = stats.completed || 0;
+        var processing = stats.processing || 0;
+        var progress = Math.min(completed / total, 1);
+
+        var dot1 = el('stepDot1'), dot2 = el('stepDot2'), dot3 = el('stepDot3'), dot4 = el('stepDot4');
+        var lineFill = el('stepLineFill');
+
+        // Step 1: Upload (always done if papers exist)
+        if (total > 0 && dot1) { dot1.classList.add('completed'); dot1.classList.remove('active'); }
+        // Step 2: Analyze (active when processing, done when all done)
+        if (dot2) {
+            if (progress >= 1) { dot2.classList.add('completed'); dot2.classList.remove('active'); }
+            else if (processing > 0 || completed > 0) { dot2.classList.add('active'); dot2.classList.remove('completed'); }
+        }
+        // Step 3: Cluster (done when all processed)
+        if (dot3) {
+            if (progress >= 1) { dot3.classList.add('completed'); dot3.classList.remove('active'); }
+            else if (progress > 0.5) { dot3.classList.add('active'); dot3.classList.remove('completed'); }
+        }
+        // Step 4: Report (done when all complete)
+        if (dot4) {
+            if (progress >= 1) { dot4.classList.add('completed'); dot4.classList.remove('active'); }
+            else if (progress > 0.75) { dot4.classList.add('active'); dot4.classList.remove('completed'); }
+        }
+
+        // Line fill
+        if (lineFill) {
+            var lineWidth = Math.min(progress * 100, 100);
+            lineFill.style.width = lineWidth + '%';
+        }
+
+        // Overall progress bar
+        var overallBar = el('overallProgressBar');
+        var overallText = el('overallProgressText');
+        if (overallBar) overallBar.style.width = Math.round(progress * 100) + '%';
+        if (overallText) overallText.textContent = Math.round(progress * 100) + '%';
+    }
+
+    // ---- Update a single paper row ----
+    function updatePaperRow(paper) {
+        var row = el('paper-' + paper.id);
+        if (!row) return;
+
+        var prevStatus = row.dataset.status || row.className.match(/status-(\w+)/)?.[1];
+        var newStatus = paper.status;
+
+        // Update border class
+        row.className = row.className.replace(/status-\w+/, '') + ' status-' + newStatus;
+        row.dataset.status = newStatus;
+
+        // Update badge/action area
+        var actionsEl = el('actions-' + paper.id);
+        if (actionsEl && prevStatus !== newStatus) {
+            var questionsUrl = row.dataset.questionsUrl || ('/questions/?paper=' + paper.id);
+            var logUrl = row.dataset.logUrl || ('#');
+            actionsEl.innerHTML = getBadgeHTML(newStatus, paper.id, questionsUrl, logUrl);
+        }
+
+        // Progress bar with speed indicator
+        var progressWrap = el('progress-' + paper.id);
+        var progressBar  = el('progressBar-' + paper.id);
+        var statusDetail = el('statusDetail-' + paper.id);
+
+        if (progressWrap && progressBar) {
+            if (newStatus === 'processing') {
+                progressWrap.classList.remove('d-none');
+                progressBar.style.width = (paper.progress_percent || 0) + '%';
+                var detailText = paper.status_detail || '';
+                if (paper.elapsed_seconds !== null && paper.elapsed_seconds !== undefined) {
+                    var speedIcon = paper.speed_indicator === 'fast' ? '&#9889;' : (paper.speed_indicator === 'slow' ? '&#128034;' : '&#9201;');
+                    detailText += ' | ' + speedIcon + ' ' + paper.elapsed_seconds + 's';
+                }
+                if (statusDetail) statusDetail.innerHTML = detailText;
+            } else {
+                progressWrap.classList.add('d-none');
+            }
+        }
+
+        // Error message
+        var errorEl = el('error-' + paper.id);
+        if (errorEl) {
+            if (newStatus === 'failed' && paper.error) {
+                errorEl.classList.remove('d-none');
+                errorEl.innerHTML = '<small style="color:#EF4444;">' + paper.error + '</small>';
+            } else {
+                errorEl.classList.add('d-none');
+                errorEl.innerHTML = '';
+            }
+        }
+
+        // Toast on status change
+        if (prevStatus && prevStatus !== newStatus) {
+            if (newStatus === 'completed') {
+                var timeStr = paper.elapsed_seconds ? ' in ' + paper.elapsed_seconds + 's' : '';
+                showToast('<i class="bi bi-check-circle me-2"></i>' + escapeHtml(paper.title) + ' — completed' + timeStr + '!', 'success');
+            } else if (newStatus === 'failed') {
+                showToast('<i class="bi bi-x-circle me-2"></i>' + escapeHtml(paper.title) + ' — failed.', 'error');
+            } else if (newStatus === 'processing') {
+                showToast('<i class="bi bi-gear me-2"></i>' + escapeHtml(paper.title) + ' — started.', 'info');
+            }
+        }
+    }
+
+    function escapeHtml(str) {
+        var d = document.createElement('div');
+        d.appendChild(document.createTextNode(str || ''));
+        return d.innerHTML;
+    }
+
+    // ---- Update stat cards ----
+    function updateStats(stats) {
+        var pending   = el('stat-pending');
+        var processing = el('stat-processing');
+        var completed = el('stat-completed');
+        var failed    = el('stat-failed');
+        var pendingBtn = el('pendingBtnCount');
+        var startForm = el('startForm');
+
+        if (pending)    setCounterValue(pending,   stats.pending   || 0);
+        if (processing) setCounterValue(processing, stats.processing || 0);
+        if (completed)  setCounterValue(completed,  stats.completed  || 0);
+        if (failed)     setCounterValue(failed,     stats.failed     || 0);
+        if (pendingBtn) pendingBtn.textContent = stats.pending || 0;
+
+        // Hide start button if no pending papers
+        if (startForm) {
+            startForm.style.display = (stats.pending > 0) ? '' : 'none';
+        }
+
+        // Show completed action buttons
+        var completedActions = el('completedActions');
+        if (completedActions) {
+            if (stats.completed > 0) {
+                completedActions.classList.remove('d-none');
+            }
+        }
+
+        // Update step indicator
+        updateStepIndicator(stats);
+    }
+
+    function setCounterValue(el, value) {
+        var current = parseInt(el.textContent, 10) || 0;
+        if (current === value) return;
+        var start = current;
+        var diff = value - start;
+        var duration = 400;
+        var startTime = null;
+        function animate(ts) {
+            if (!startTime) startTime = ts;
+            var progress = Math.min((ts - startTime) / duration, 1);
+            el.textContent = Math.round(start + diff * progress);
+            if (progress < 1) requestAnimationFrame(animate);
+            else el.textContent = value;
+        }
+        requestAnimationFrame(animate);
+    }
+
+    // ---- Update last-updated timestamp ----
+    function updateTimestamp() {
+        var lu = el('lastUpdated');
+        if (!lu) return;
+        var now = new Date();
+        lu.textContent = 'Updated ' + now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+    }
+
+    // ---- Main poll function ----
+    function poll() {
+        if (isPolling) return;
+        isPolling = true;
+
+        fetch('/papers/api/subject/' + SUBJECT_ID + '/status/', {
+            method: 'GET',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(function(res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json();
+        })
+        .then(function(data) {
+            consecutiveErrors = 0;
+            isPolling = false;
+
+            // Update stat cards
+            if (data.stats) updateStats(data.stats);
+
+            // Update each paper row
+            if (data.papers && data.papers.length) {
+                data.papers.forEach(updatePaperRow);
+            }
+
+            // Update speed panel
+            if (data.speed) {
+                var speedPanel = el('speedPanel');
+                if (speedPanel) {
+                    var hasSpeed = data.speed.avg_completion_time || data.speed.papers_per_minute;
+                    var isActive = data.stats && (data.stats.processing > 0 || data.stats.completed > 0);
+                    if (hasSpeed && isActive) {
+                        speedPanel.classList.remove('d-none');
+                        var ppmEl = el('speedPapersPerMin');
+                        var avgEl = el('speedAvgTime');
+                        var etaEl = el('speedETA');
+                        if (ppmEl) ppmEl.textContent = data.speed.papers_per_minute || '--';
+                        if (avgEl) avgEl.textContent = data.speed.avg_completion_time ? data.speed.avg_completion_time + 's' : '--';
+                        if (etaEl) etaEl.textContent = data.speed.est_remaining_seconds ? data.speed.est_remaining_seconds + 's' : '--';
+                    }
+                }
+            }
+
+            updateTimestamp();
+
+            // Stop polling when nothing left to process
+            var active = (data.stats && (data.stats.processing > 0 || data.stats.pending > 0));
+            if (!active) {
+                stopPolling();
+                var liveEl = el('liveIndicator');
+                if (liveEl) {
+                    liveEl.style.background = 'rgba(16,185,129,0.06)';
+                    liveEl.style.borderColor = 'rgba(16,185,129,0.15)';
+                    var spinner = liveEl.querySelector('.processing-spinner');
+                    if (spinner) spinner.style.display = 'none';
+                    var liveStatus = liveEl.querySelector('#liveStatus');
+                    if (liveStatus) {
+                        liveStatus.textContent = 'All done! Processing complete.';
+                        liveStatus.style.color = '#10B981';
+                    }
+                }
+                if (data.stats && data.stats.completed > 0) {
+                    showToast('<i class="bi bi-check-circle me-2"></i>All papers processed!', 'success');
+                }
+            }
+        })
+        .catch(function(err) {
+            consecutiveErrors++;
+            isPolling = false;
+            if (consecutiveErrors >= MAX_ERRORS) {
+                stopPolling();
+                showToast('<i class="bi bi-wifi-off me-2"></i>Lost connection. Refresh to continue.', 'error');
+            }
+        });
+    }
+
+    // ---- Start / Stop polling ----
+    function startPolling() {
+        if (pollTimer) return;
+        var liveEl = el('liveIndicator');
+        if (liveEl) liveEl.classList.remove('d-none');
+        poll(); // immediate first poll
+        pollTimer = setInterval(poll, POLL_INTERVAL);
+    }
+
+    function stopPolling() {
+        if (pollTimer) {
+            clearInterval(pollTimer);
+            pollTimer = null;
+        }
+    }
+
+    // ---- Init ----
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize step indicator with current values
+        var initialStats = {
+            pending: {{ papers_pending }},
+            processing: {{ papers_processing }},
+            completed: {{ papers_completed }},
+            failed: {{ papers_failed }},
+            total: {{ papers_total }}
+        };
+        updateStepIndicator(initialStats);
+
+        if (initiallyActive) {
+            startPolling();
+        }
+
+        // Also start polling when "Start Processing" form is submitted
+        var startForm = el('startForm');
+        if (startForm) {
+            startForm.addEventListener('submit', function(e) {
+                setTimeout(startPolling, 2000);
+            });
+        }
+
+        // Start API status polling (every 10 seconds)
+        pollAPIStatus();
+        setInterval(pollAPIStatus, 10000);
+    });
+
+    // ---- API Provider Status Polling ----
+    function pollAPIStatus() {
+        fetch('/api-status/', {
+            method: 'GET',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            var tbody = el('apiStatusBody');
+            if (!tbody || !data.providers) return;
+            var html = '';
+            data.providers.forEach(function(p) {
+                var statusBadge = p.available
+                    ? '<span style="color:#22c55e;font-weight:600;">Available</span>'
+                    : '<span style="color:#ef4444;font-weight:600;">Exhausted</span>';
+                var reset = p.reset_info || '-';
+                html += '<tr style="border-bottom:1px solid var(--border-color);">' +
+                    '<td style="padding:0.5rem;">' + escapeHtml(p.name) + '</td>' +
+                    '<td style="padding:0.5rem;text-align:center;">' + statusBadge + '</td>' +
+                    '<td style="padding:0.5rem;text-align:center;">' + p.requests_today + '</td>' +
+                    '<td style="padding:0.5rem;text-align:center;">' + p.daily_limit + '</td>' +
+                    '<td style="padding:0.5rem;">' + escapeHtml(reset) + '</td>' +
+                    '</tr>';
+            });
+            tbody.innerHTML = html;
+        })
+        .catch(function() { /* silently fail for status panel */ });
+    }
+})();
+</script>
+{% endblock %}

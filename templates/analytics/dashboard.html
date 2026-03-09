@@ -1,0 +1,193 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Analytics - {{ subject.name }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3 animate-entrance" data-aos="fade-up">
+    <div>
+        <h3 class="page-heading mb-1" data-word-stagger>
+            <i class="bi bi-bar-chart" style="color:var(--accent-indigo);"></i>
+            <span class="gradient-text">Analytics:</span> {{ subject.name }}
+        </h3>
+        <span class="text-muted" style="font-size:0.9rem;">{{ subject.code }}</span>
+    </div>
+    <div class="d-flex gap-2">
+        <a href="{% url 'reports:public_all_modules' subject_pk=subject.pk %}" class="btn-glow btn-glow-danger">
+            <i class="bi bi-file-earmark-pdf me-1"></i> Download Reports
+        </a>
+        <a href="{% url 'papers:processing_status' subject_pk=subject.pk %}" class="btn-glass">
+            <i class="bi bi-arrow-left me-1"></i> Back
+        </a>
+    </div>
+</div>
+
+<!-- Stats Row -->
+<div class="row g-3 mb-4" data-aos="fade-up" data-aos-delay="60">
+    <div class="col-md-2 col-6">
+        <div class="stat-card stat-card-primary tilt-card animate-entrance">
+            <div class="stat-number count-up-animated" data-count="{{ stats.total_papers }}">0</div>
+            <div class="stat-label">Papers</div>
+        </div>
+    </div>
+    <div class="col-md-2 col-6">
+        <div class="stat-card stat-card-info tilt-card animate-entrance">
+            <div class="stat-number count-up-animated" data-count="{{ stats.total_questions }}">0</div>
+            <div class="stat-label">Questions</div>
+        </div>
+    </div>
+    <div class="col-md-2 col-6">
+        <div class="stat-card tier-stat-1 tilt-card animate-entrance" style="border-radius:16px;padding:1.5rem;text-align:center;">
+            <h4 class="mb-0 fw-bold count-up-animated" data-count="{{ stats.tier_1_count }}" style="color:var(--text-primary);">0</h4>
+            <small class="text-muted">Tier 1</small>
+        </div>
+    </div>
+    <div class="col-md-2 col-6">
+        <div class="stat-card tier-stat-2 tilt-card animate-entrance" style="border-radius:16px;padding:1.5rem;text-align:center;">
+            <h4 class="mb-0 fw-bold count-up-animated" data-count="{{ stats.tier_2_count }}" style="color:var(--text-primary);">0</h4>
+            <small class="text-muted">Tier 2</small>
+        </div>
+    </div>
+    <div class="col-md-2 col-6">
+        <div class="stat-card tier-stat-3 tilt-card animate-entrance" style="border-radius:16px;padding:1.5rem;text-align:center;">
+            <h4 class="mb-0 fw-bold count-up-animated" data-count="{{ stats.tier_3_count }}" style="color:var(--text-primary);">0</h4>
+            <small class="text-muted">Tier 3</small>
+        </div>
+    </div>
+    <div class="col-md-2 col-6">
+        <div class="stat-card tier-stat-4 tilt-card animate-entrance" style="border-radius:16px;padding:1.5rem;text-align:center;">
+            <h4 class="mb-0 fw-bold count-up-animated" data-count="{{ stats.tier_4_count }}" style="color:var(--text-primary);">0</h4>
+            <small class="text-muted">Tier 4</small>
+        </div>
+    </div>
+</div>
+
+<!-- Charts -->
+<div class="row g-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+    <div class="col-md-6">
+        <div class="premium-card animate-entrance" style="background:#FFFFFF;border:1px solid #E2E8F0;">
+            <h6 class="chart-title"><i class="bi bi-bar-chart-fill me-2" style="color:var(--accent-indigo);"></i>Questions per Module</h6>
+            <div class="chart-container" style="padding:0;border:none;box-shadow:none;background:transparent;">
+                <canvas id="moduleChart" height="250"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="premium-card animate-entrance" style="background:#FFFFFF;border:1px solid #E2E8F0;">
+            <h6 class="chart-title"><i class="bi bi-pie-chart-fill me-2" style="color:var(--accent-violet);"></i>Priority Tier Distribution</h6>
+            <div class="chart-container" style="padding:0;border:none;box-shadow:none;background:transparent;">
+                <canvas id="tierChart" height="250"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Module Clusters -->
+<h4 class="fw-bold mt-4 mb-3 animate-entrance" data-aos="fade-up" style="color:var(--text-primary);">
+    <i class="bi bi-diagram-3 me-2" style="color:var(--accent-indigo);"></i>
+    Topic Clusters by Module
+</h4>
+
+{% for module in modules %}
+<div class="premium-card mb-3 animate-entrance" style="padding:0;overflow:hidden;border:1px solid #E2E8F0;" data-aos="fade-up">
+    <div class="module-header d-flex align-items-center justify-content-between">
+        <h6 class="mb-0 fw-bold" style="color:var(--text-primary);">
+            <span class="badge-light-primary me-2">M{{ module.number }}</span>
+            {{ module.name }}
+        </h6>
+    </div>
+    <div style="padding:1.25rem;">
+        {% with module_clusters=clusters_by_module %}
+        {% for cluster in module_clusters|default_if_none:"" %}
+        {% endfor %}
+        {% endwith %}
+
+        {% if module.topic_clusters.all %}
+        <div class="row g-2">
+            {% for cluster in module.topic_clusters.all %}
+            <div class="col-md-6">
+                <div class="cluster-item hover-glow-row">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>
+                            <span class="tier-badge-{{ cluster.priority_tier }} me-1">T{{ cluster.priority_tier }}</span>
+                            <strong style="color:var(--text-primary);">{{ cluster.topic_name|truncatechars:60 }}</strong>
+                        </span>
+                        <span class="badge-light-gray">{{ cluster.frequency_count }}x</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state" style="padding:2rem;">
+            <i class="bi bi-diagram-3"></i>
+            <p>No clusters yet. Process papers first.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Module chart
+    new Chart(document.getElementById('moduleChart'), {
+        type: 'bar',
+        data: {
+            labels: {{ module_labels|safe }},
+            datasets: [{
+                label: 'Questions',
+                data: {{ module_data|safe }},
+                backgroundColor: [
+                    'rgba(99, 102, 241, 0.7)',
+                    'rgba(16, 185, 129, 0.7)',
+                    'rgba(245, 158, 11, 0.7)',
+                    'rgba(239, 68, 68, 0.7)',
+                    'rgba(139, 92, 246, 0.7)'
+                ],
+                borderColor: [
+                    '#6366F1', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'
+                ],
+                borderWidth: 1,
+                borderRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { grid: { color: 'rgba(0,0,0,0.06)' } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+
+    // Tier chart
+    new Chart(document.getElementById('tierChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Tier 1 (5+)', 'Tier 2 (3-4)', 'Tier 3 (2)', 'Tier 4 (1)'],
+            datasets: [{
+                data: [{{ stats.tier_1_count }}, {{ stats.tier_2_count }}, {{ stats.tier_3_count }}, {{ stats.tier_4_count }}],
+                backgroundColor: [
+                    'rgba(220, 38, 38, 0.8)',
+                    'rgba(249, 115, 22, 0.8)',
+                    'rgba(245, 158, 11, 0.8)',
+                    'rgba(107, 114, 128, 0.8)'
+                ],
+                borderColor: '#FFFFFF',
+                borderWidth: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { padding: 15, color: '#374151' }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

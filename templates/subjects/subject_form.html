@@ -1,0 +1,105 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}{% if object %}Edit{% else %}Create{% endif %} Subject - PYQ Analyzer{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="max-width: 720px;">
+
+    <div class="premium-card animate-entrance p-4 p-md-5">
+
+        <h1 class="page-heading mb-4" data-word-stagger>
+            <i class="bi bi-journal-text me-2" style="color: var(--text-secondary);"></i>
+            {% if object %}Edit Subject{% else %}Create New Subject{% endif %}
+        </h1>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Basic Info -->
+            <div class="form-section mb-4">
+                <h5 class="form-section-title">
+                    <i class="bi bi-info-circle me-2"></i>Basic Information
+                </h5>
+
+                <div class="mb-3">
+                    <label style="display:block;font-size:0.82rem;font-weight:600;color:#374151;margin-bottom:0.4rem;">Subject Name *</label>
+                    {{ form.name }}
+                </div>
+
+                <div class="mb-3">
+                    <label style="display:block;font-size:0.82rem;font-weight:600;color:#374151;margin-bottom:0.4rem;">Subject Code</label>
+                    {{ form.code }}
+                </div>
+
+                <div class="mb-3">
+                    <label style="display:block;font-size:0.82rem;font-weight:600;color:#374151;margin-bottom:0.4rem;">Description</label>
+                    {{ form.description }}
+                </div>
+            </div>
+
+            <!-- Academic Details -->
+            <div class="form-section mb-4">
+                <h5 class="form-section-title">
+                    <i class="bi bi-mortarboard me-2"></i>Academic Details
+                </h5>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label style="display:block;font-size:0.82rem;font-weight:600;color:#374151;margin-bottom:0.4rem;">University</label>
+                        {{ form.university }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label style="display:block;font-size:0.82rem;font-weight:600;color:#374151;margin-bottom:0.4rem;">Exam Board</label>
+                        {{ form.exam_board }}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label style="display:block;font-size:0.82rem;font-weight:600;color:#374151;margin-bottom:0.4rem;">Year</label>
+                    {{ form.year }}
+                </div>
+            </div>
+
+            <!-- File Upload -->
+            <div class="form-section mb-4">
+                <h5 class="form-section-title">
+                    <i class="bi bi-file-earmark-pdf me-2"></i>Syllabus
+                </h5>
+
+                <div class="mb-3">
+                    <label style="display:block;font-size:0.82rem;font-weight:600;color:#374151;margin-bottom:0.4rem;">Syllabus File (PDF)</label>
+                    {{ form.syllabus_file }}
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="d-flex gap-3 mt-4">
+                <button type="submit" class="btn btn-glow flex-fill">
+                    <i class="bi bi-check-lg me-1"></i>
+                    {% if object %}Update{% else %}Create{% endif %} Subject
+                </button>
+                <a href="{% url 'subjects:list' %}" class="btn btn-glass flex-fill text-center">
+                    <i class="bi bi-x-lg me-1"></i> Cancel
+                </a>
+            </div>
+        </form>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  /* Apply premium input base styles — focus/blur handled by initPremiumInputs() */
+  document.querySelectorAll('form input, form select, form textarea').forEach(function(el) {
+    if (el.type === 'hidden' || el.type === 'submit' || el.type === 'file') return;
+    el.style.cssText = 'width:100%;background:#FAFBFF;border:1.5px solid #E2E8F0;border-radius:12px;color:#0F172A;padding:14px 18px;font-size:15px;line-height:1.6;font-family:inherit;outline:none;transition:all 0.3s ease;min-height:52px;height:auto;overflow:visible;white-space:normal;text-overflow:unset;';
+    var parent = el.closest('div.mb-3') || el.closest('div');
+    if (parent && !parent.classList.contains('reg-field-group') && !parent.classList.contains('floating-label-group')) {
+      parent.classList.add('reg-field-group');
+    }
+  });
+  if (typeof initPremiumInputs === 'function') initPremiumInputs();
+</script>
+{% endblock %}

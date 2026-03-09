@@ -1,0 +1,124 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Analysis Jobs - PYQ Analyzer{% endblock %}
+
+{% block content %}
+<h2 class="page-heading mb-4 animate-entrance" data-word-stagger><i class="bi bi-cpu"></i> Analysis Jobs</h2>
+<p class="mb-4 animate-entrance" style="color: var(--text-secondary);">Track the status of your paper analysis tasks</p>
+
+{% if jobs %}
+<div class="stagger-list">
+    {% for job in jobs %}
+    <div class="premium-card animate-entrance mb-4" style="padding: 1.5rem;">
+        <!-- Header: Title + Status + Action -->
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-3">
+            <div>
+                <h5 class="mb-1 fw-bold" style="color: var(--text-primary);">{{ job.paper.title }}</h5>
+                <small style="color: var(--text-secondary);">{{ job.paper.subject.name }} - {{ job.paper.year }}</small>
+            </div>
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                {% if job.status == 'COMPLETED' %}
+                <span class="badge-glow-success">Completed</span>
+                {% elif job.status == 'FAILED' %}
+                <span class="badge-glow-danger">Failed</span>
+                {% elif job.status == 'PENDING' %}
+                <span class="badge-glow-warning">Pending</span>
+                {% else %}
+                <span class="badge-glow-info">{{ job.status|title }}</span>
+                {% endif %}
+                <a href="{% url 'analysis:detail' job.pk %}" class="btn-glass" style="padding: 0.4rem 1rem; font-size: 0.85rem;">
+                    <i class="bi bi-eye me-1"></i> View Details
+                </a>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        {% if job.status not in 'COMPLETED,FAILED' %}
+        <div class="mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <span style="color: var(--text-muted); font-size: 0.85rem;">{{ job.status_detail }}</span>
+                <span style="color: var(--text-primary); font-weight: 600; font-size: 0.85rem;">{{ job.progress }}%</span>
+            </div>
+            <div class="progress-dark">
+                <div class="progress-bar-gradient" style="width: {{ job.progress }}%"></div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Stats Row -->
+        <div class="row g-2 mb-3">
+            <div class="col-4">
+                <div class="stat-card stat-card-info" style="padding: 0.75rem;">
+                    <div class="stat-number" style="font-size: 1.25rem;" data-count="{{ job.questions_extracted|default:0 }}">0</div>
+                    <div class="stat-label" style="font-size: 0.7rem;">Extracted</div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="stat-card stat-card-primary" style="padding: 0.75rem;">
+                    <div class="stat-number" style="font-size: 1.25rem;" data-count="{{ job.questions_classified|default:0 }}">0</div>
+                    <div class="stat-label" style="font-size: 0.7rem;">Classified</div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="stat-card stat-card-warning" style="padding: 0.75rem;">
+                    <div class="stat-number" style="font-size: 1.25rem;" data-count="{{ job.duplicates_found|default:0 }}">0</div>
+                    <div class="stat-label" style="font-size: 0.7rem;">Duplicates</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Message -->
+        {% if job.error_message %}
+        <div class="alert-dark-glass alert-danger mb-3">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            <strong>Error:</strong> {{ job.error_message }}
+        </div>
+        {% endif %}
+
+        <!-- Timestamps -->
+        <div class="d-flex gap-3 flex-wrap">
+            <small style="color: var(--text-muted);"><i class="bi bi-clock me-1"></i> Created: {{ job.created_at|date:"M d, Y H:i" }}</small>
+            {% if job.completed_at %}
+            <small style="color: var(--text-muted);"><i class="bi bi-check-circle me-1"></i> Completed: {{ job.completed_at|date:"M d, Y H:i" }}</small>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Pagination -->
+{% if is_paginated %}
+<div class="pagination-dark d-flex justify-content-center align-items-center gap-2 mt-4 animate-entrance">
+    {% if page_obj.has_previous %}
+    <a href="?page=1" class="btn-glass" style="padding: 0.4rem 1rem; font-size: 0.85rem;">First</a>
+    <a href="?page={{ page_obj.previous_page_number }}" class="btn-glass" style="padding: 0.4rem 1rem; font-size: 0.85rem;">
+        <i class="bi bi-chevron-left"></i> Previous
+    </a>
+    {% endif %}
+
+    <span class="active-page" style="padding: 0.4rem 1.2rem; font-size: 0.85rem;">
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+    </span>
+
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}" class="btn-glass" style="padding: 0.4rem 1rem; font-size: 0.85rem;">
+        Next <i class="bi bi-chevron-right"></i>
+    </a>
+    <a href="?page={{ page_obj.paginator.num_pages }}" class="btn-glass" style="padding: 0.4rem 1rem; font-size: 0.85rem;">Last</a>
+    {% endif %}
+</div>
+{% endif %}
+
+{% else %}
+<!-- Empty State -->
+<div class="empty-state animate-entrance">
+    <i class="bi bi-cpu" style="font-size: 3rem;"></i>
+    <h5 class="mt-3" style="color: var(--text-primary);">No Analysis Jobs Yet</h5>
+    <p style="color: var(--text-muted);">Upload a paper to start analyzing questions</p>
+    <a href="{% url 'papers:upload_generic' %}" class="btn-glow mt-2">
+        <i class="bi bi-cloud-upload me-1"></i> Upload Your First Paper
+    </a>
+</div>
+{% endif %}
+{% endblock %}

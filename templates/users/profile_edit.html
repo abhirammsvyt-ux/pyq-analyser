@@ -1,0 +1,60 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Edit Profile - KTU PYQ Analyzer{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center" style="min-height:60vh;align-items:center;padding:2rem 0;">
+    <div class="col-md-5">
+        <div class="premium-card animate-entrance" data-aos="fade-up" style="padding:2.5rem;">
+            <div class="d-flex align-items-center gap-3 mb-4">
+                <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#6366F1,#8B5CF6);color:#FFF;font-size:1.2rem;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(99,102,241,0.3);">
+                    <i class="bi bi-pencil-square"></i>
+                </div>
+                <div>
+                    <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;color:var(--text-primary);margin:0;font-size:1.35rem;">Edit Profile</h3>
+                    <p style="color:var(--text-muted);font-size:0.85rem;margin:0;">Update your account details</p>
+                </div>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                <div style="margin-bottom:1.15rem;">
+                    <label for="{{ field.id_for_label }}" style="display:block;font-size:0.82rem;font-weight:600;color:#374151;margin-bottom:0.4rem;letter-spacing:0.2px;">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                    <div style="color:#EF4444;font-size:0.8rem;margin-top:0.3rem;">{{ field.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn-slide btn-slide-indigo ripple-btn" style="width:100%;border-radius:12px;padding:0.85rem 1.5rem;margin-top:0.5rem;">
+                    <span><i class="bi bi-check-lg me-1"></i> Save Changes</span>
+                </button>
+            </form>
+
+            <div class="text-center mt-3">
+                <a href="{% url 'users:profile' %}" style="color:var(--accent-indigo);font-size:0.9rem;font-weight:500;text-decoration:none;">
+                    <i class="bi bi-arrow-left me-1"></i> Cancel
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  /* Apply premium input base styles — focus/blur handled by initPremiumInputs() */
+  document.querySelectorAll('form input, form select').forEach(function(el) {
+    if (el.type === 'hidden' || el.type === 'submit' || el.type === 'file') return;
+    el.style.cssText = 'width:100%;background:#FAFBFF;border:1.5px solid #E2E8F0;border-radius:12px;color:#0F172A;padding:14px 18px;font-size:15px;line-height:1.6;font-family:inherit;outline:none;transition:all 0.3s ease;min-height:52px;height:auto;overflow:visible;white-space:normal;text-overflow:unset;';
+    /* Wrap parent in reg-field-group if not already */
+    var parent = el.closest('div');
+    if (parent && !parent.classList.contains('reg-field-group') && !parent.classList.contains('floating-label-group')) {
+      parent.classList.add('reg-field-group');
+    }
+  });
+  /* Re-init premium inputs for dynamically tagged groups */
+  if (typeof initPremiumInputs === 'function') initPremiumInputs();
+</script>
+{% endblock %}

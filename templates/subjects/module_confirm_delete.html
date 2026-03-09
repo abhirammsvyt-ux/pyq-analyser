@@ -1,0 +1,37 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Delete Module - PYQ Analyzer{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="max-width: 560px;">
+
+    <div class="danger-card animate-entrance p-4 p-md-5 text-center">
+
+        <div class="danger-icon mx-auto mb-4">
+            <i class="bi bi-trash"></i>
+        </div>
+
+        <h1 class="page-heading mb-3" data-word-stagger>Delete Module</h1>
+
+        <p style="color: var(--text-secondary);">
+            Are you sure you want to delete
+            <span style="color: var(--text-primary); font-weight: 600;">Module {{ object.number }}: {{ object.name }}</span>?
+        </p>
+        <p class="mt-2" style="color: var(--text-muted); font-size: 0.875rem;">
+            Subject: {{ object.subject.name }}
+        </p>
+
+        <form method="post" class="d-flex gap-3 mt-4 justify-content-center">
+            {% csrf_token %}
+            <a href="{% url 'subjects:detail' pk=object.subject.pk %}" class="btn btn-glass flex-fill">
+                <i class="bi bi-arrow-left me-1"></i> Cancel
+            </a>
+            <button type="submit" class="btn btn-glow-danger flex-fill">
+                <i class="bi bi-trash me-1"></i> Delete
+            </button>
+        </form>
+
+    </div>
+</div>
+{% endblock %}

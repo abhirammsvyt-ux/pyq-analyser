@@ -1,0 +1,38 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Delete Rule{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="danger-card animate-entrance p-4 text-center">
+                <div class="danger-icon mb-3">
+                    <i class="bi bi-trash" style="font-size: 2.5rem;"></i>
+                </div>
+
+                <h1 class="mb-3" style="color: var(--text-primary); font-size: 1.5rem; font-weight: 700;">Delete Rule</h1>
+
+                <p class="mb-1" style="color: var(--text-secondary);">
+                    Are you sure you want to delete <strong style="color: var(--text-primary);">{{ object.name }}</strong>?
+                </p>
+                <p class="mb-0" style="color: var(--text-muted); font-size: 0.9rem;">
+                    Subject: {{ object.subject.name }}
+                </p>
+
+                <div class="divider-frost my-4"></div>
+
+                <form method="post" class="d-flex gap-3">
+                    {% csrf_token %}
+                    <a href="{% url 'rules:list' subject_pk=object.subject.pk %}" class="btn btn-glass flex-grow-1">
+                        Cancel
+                    </a>
+                    <button type="submit" class="btn btn-glow-danger flex-grow-1">
+                        <i class="bi bi-trash me-1"></i> Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

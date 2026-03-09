@@ -1,0 +1,248 @@
+{
+  "subject_code": "MCN 301",
+  "subject_name": "DISASTER MANAGEMENT",
+  "exam_year": 2020,
+  "exam_month": "December",
+  "questions": [
+    {
+      "q_number": 1,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 1,
+      "text": "Differentiate between acceptable risk and residual risk."
+    },
+    {
+      "q_number": 2,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 1,
+      "text": "State the composition of lithosphere?"
+    },
+    {
+      "q_number": 3,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 2,
+      "text": "Explain physical vulnerability and ecological vulnerability."
+    },
+    {
+      "q_number": 4,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 2,
+      "text": "Define disaster deficit index."
+    },
+    {
+      "q_number": 5,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 3,
+      "text": "Explain psychosocial support related with disaster response."
+    },
+    {
+      "q_number": 6,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 3,
+      "text": "List any six public health services required in responding to disasters."
+    },
+    {
+      "q_number": 7,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 4,
+      "text": "Explain pyramid scheme related with participatory stakeholder engagement."
+    },
+    {
+      "q_number": 8,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 4,
+      "text": "Define the terms counselling and crisis counselling."
+    },
+    {
+      "q_number": 9,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 5,
+      "text": "Define man-made disasters and list examples from our country."
+    },
+    {
+      "q_number": 10,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 5,
+      "text": "Explain the role of National Institute of Disaster Management in our country."
+    },
+    {
+      "q_number": 11,
+      "sub": "a",
+      "part": "B",
+      "marks": 8,
+      "module": 1,
+      "text": "Illustrate with diagram the layers of earth’s atmosphere."
+    },
+    {
+      "q_number": 11,
+      "sub": "b",
+      "part": "B",
+      "marks": 6,
+      "module": 1,
+      "text": "State and explain the classification of rocks."
+    },
+    {
+      "q_number": 12,
+      "sub": "a",
+      "part": "B",
+      "marks": 8,
+      "module": 1,
+      "text": "State and explain the features of hydrosphere and biosphere in detail."
+    },
+    {
+      "q_number": 12,
+      "sub": "b",
+      "part": "B",
+      "marks": 6,
+      "module": 1,
+      "text": "Explain the terms resilience, recovery and early warning systems with respect to disaster risk management."
+    },
+    {
+      "q_number": 13,
+      "sub": "a",
+      "part": "B",
+      "marks": 8,
+      "module": 2,
+      "text": "Explain the applications of hazard maps."
+    },
+    {
+      "q_number": 13,
+      "sub": "b",
+      "part": "B",
+      "marks": 6,
+      "module": 2,
+      "text": "Explain the methods of representing vulnerability."
+    },
+    {
+      "q_number": 14,
+      "sub": "a",
+      "part": "B",
+      "marks": 5,
+      "module": 2,
+      "text": "Explain the method of expressing population risk."
+    },
+    {
+      "q_number": 14,
+      "sub": "b",
+      "part": "B",
+      "marks": 9,
+      "module": 2,
+      "text": "List the components of risk assessment. Explain the contemporary approaches to risk assessment."
+    },
+    {
+      "q_number": 15,
+      "sub": "a",
+      "part": "B",
+      "marks": 4,
+      "module": 3,
+      "text": "State and explain the types of disaster mitigation measures."
+    },
+    {
+      "q_number": 15,
+      "sub": "b",
+      "part": "B",
+      "marks": 10,
+      "module": 3,
+      "text": "Identify the factors that determine the nature of disaster response and explain."
+    },
+    {
+      "q_number": 16,
+      "sub": "a",
+      "part": "B",
+      "marks": 6,
+      "module": 3,
+      "text": "State and explain the types of disaster preparedness."
+    },
+    {
+      "q_number": 16,
+      "sub": "b",
+      "part": "B",
+      "marks": 8,
+      "module": 3,
+      "text": "Identify the standard operating procedures to be followed during a disaster stage and explain."
+    },
+    {
+      "q_number": 17,
+      "sub": "a",
+      "part": "B",
+      "marks": 5,
+      "module": 4,
+      "text": "State and explain the basic principles of participatory rural appraisal tools."
+    },
+    {
+      "q_number": 17,
+      "sub": "b",
+      "part": "B",
+      "marks": 9,
+      "module": 4,
+      "text": "Explain the characteristics of effective crisis counsellors. State the advantages of crisis counselling."
+    },
+    {
+      "q_number": 18,
+      "sub": "a",
+      "part": "B",
+      "marks": 8,
+      "module": 4,
+      "text": "State and explain the steps for effective communication."
+    },
+    {
+      "q_number": 18,
+      "sub": "b",
+      "part": "B",
+      "marks": 6,
+      "module": 4,
+      "text": "Identify the barriers to effective communication."
+    },
+    {
+      "q_number": 19,
+      "sub": "a",
+      "part": "B",
+      "marks": 7,
+      "module": 5,
+      "text": "List the global targets of Sendai framework and explain."
+    },
+    {
+      "q_number": 19,
+      "sub": "b",
+      "part": "B",
+      "marks": 7,
+      "module": 5,
+      "text": "Explain the role, composition and responsibilities of National Disaster Management Authority."
+    },
+    {
+      "q_number": 20,
+      "sub": "a",
+      "part": "B",
+      "marks": 10,
+      "module": 5,
+      "text": "List the guiding principles of Sendai framework and explain."
+    },
+    {
+      "q_number": 20,
+      "sub": "b",
+      "part": "B",
+      "marks": 4,
+      "module": 5,
+      "text": "State the composition and role of National Executive Committee related with the National Policy on Disaster Management."
+    }
+  ]
+}

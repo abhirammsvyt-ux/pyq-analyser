@@ -1,0 +1,109 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Upload Papers{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-7">
+        <div class="d-flex justify-content-between align-items-center mb-4 animate-entrance" data-aos="fade-up">
+            <div>
+                <h3 class="page-heading mb-0" data-word-stagger><i class="bi bi-cloud-upload" style="color:var(--accent-indigo);"></i> Upload Papers</h3>
+                <span style="color:var(--text-secondary);font-size:0.9rem;">{{ subject.name }}</span>
+            </div>
+            <a class="btn-glass" href="{% url 'subjects:detail' pk=subject.id %}">
+                <i class="bi bi-arrow-left me-1"></i> Back
+            </a>
+        </div>
+
+        <div class="premium-card animate-entrance" data-aos="fade-up" data-aos-delay="100" style="padding:2rem;">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div style="margin-bottom:1.5rem;">
+                    <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent-indigo);margin-bottom:1.25rem;">
+                        <i class="bi bi-file-earmark-pdf-fill"></i> Question Papers (PDF)
+                        <span style="flex:1;height:1px;background:linear-gradient(90deg,rgba(99,102,241,0.25),transparent);"></span>
+                    </div>
+
+                    <div class="upload-zone" id="dropZone" style="position:relative;border-radius:16px;background:linear-gradient(135deg,#f8faff 0%,#f0f4ff 100%);padding:3rem 1.5rem;text-align:center;cursor:pointer;transition:background 0.2s;overflow:visible;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;">
+                        <svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;border-radius:16px;overflow:visible;" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="1" y="1" width="calc(100% - 2px)" height="calc(100% - 2px)" rx="15" ry="15" fill="none" stroke="#6366F1" stroke-width="2" stroke-dasharray="8 4" stroke-linecap="round" style="animation:marchingDashes 1s linear infinite;"></rect>
+                        </svg>
+                        <i class="bi bi-cloud-arrow-up" style="font-size:3rem;color:var(--accent-indigo);filter:drop-shadow(0 4px 10px rgba(99,102,241,0.25));animation:uploadBounce 1.5s ease-in-out infinite;"></i>
+                        <p style="font-size:0.97rem;font-weight:600;color:#334155;margin:0;">Drag &amp; drop PDF files here or click to browse</p>
+                        <p style="font-size:0.8rem;color:#94A3B8;margin:0;">You can select multiple PDFs</p>
+                        <input type="file" name="files" multiple accept="application/pdf" required style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;">
+                    </div>
+
+                    <div class="file-list-container" id="fileListContainer" style="margin-top:1rem;max-height:0;overflow:hidden;transition:max-height 0.4s cubic-bezier(0.23,1,0.32,1);"></div>
+                </div>
+
+                <button type="submit" class="btn-slide btn-slide-indigo ripple-btn" style="width:100%;border-radius:14px;padding:0.95rem 2rem;">
+                    <span><i class="bi bi-upload me-1"></i> Upload &amp; Analyze</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+@keyframes uploadBounce {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+@keyframes marchingDashes { to { stroke-dashoffset: -24; } }
+</style>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function() {
+    var zone = document.getElementById('dropZone');
+    var fileInput = zone ? zone.querySelector('input[type="file"]') : null;
+    var container = document.getElementById('fileListContainer');
+
+    if (zone && fileInput) {
+        ['dragenter','dragover'].forEach(function(ev) {
+            zone.addEventListener(ev, function(e) {
+                e.preventDefault();
+                zone.style.background = 'linear-gradient(135deg,#eef2ff 0%,#e0e7ff 100%)';
+            });
+        });
+        ['dragleave','drop'].forEach(function(ev) {
+            zone.addEventListener(ev, function() {
+                zone.style.background = 'linear-gradient(135deg,#f8faff 0%,#f0f4ff 100%)';
+            });
+        });
+        zone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            if (e.dataTransfer && e.dataTransfer.files) {
+                try {
+                    var dt = new DataTransfer();
+                    Array.from(e.dataTransfer.files).forEach(function(f) { dt.items.add(f); });
+                    fileInput.files = dt.files;
+                    fileInput.dispatchEvent(new Event('change', { bubbles: true }));
+                } catch(ex) {}
+            }
+        });
+        fileInput.addEventListener('change', function() {
+            if (!container) return;
+            container.innerHTML = '';
+            var files = Array.from(fileInput.files || []);
+            if (!files.length) { container.style.maxHeight = '0'; return; }
+            container.style.maxHeight = (files.length * 56 + 16) + 'px';
+            files.forEach(function(f, i) {
+                var sizeStr = f.size > 1048576 ? (f.size/1048576).toFixed(1) + ' MB' : Math.round(f.size/1024) + ' KB';
+                var item = document.createElement('div');
+                item.style.cssText = 'display:flex;align-items:center;gap:0.75rem;padding:0.65rem 1rem;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;margin-bottom:0.5rem;opacity:0;transform:translateX(-16px);transition:all 0.3s ease;';
+                item.innerHTML = '<span style="color:#10B981;font-size:1.1rem;flex-shrink:0;">&#10003;</span>' +
+                    '<span style="flex:1;font-size:0.88rem;color:#0F172A;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + f.name + '</span>' +
+                    '<span style="color:#94A3B8;font-size:0.78rem;white-space:nowrap;">' + sizeStr + '</span>';
+                container.appendChild(item);
+                setTimeout(function() { item.style.opacity = '1'; item.style.transform = 'translateX(0)'; }, i * 80 + 50);
+            });
+        });
+    }
+})();
+</script>
+{% endblock %}

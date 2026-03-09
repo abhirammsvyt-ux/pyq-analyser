@@ -1,0 +1,84 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Analysis Job{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3 animate-entrance">
+    <div>
+        <h2 class="page-heading mb-1" data-word-stagger><i class="bi bi-cpu"></i> Analysis Job</h2>
+        <span style="color: var(--text-secondary);">{{ job.paper.title }}</span>
+    </div>
+    <a href="{% url 'analysis:job_list' %}" class="btn-glass">
+        <i class="bi bi-arrow-left me-1"></i> Back
+    </a>
+</div>
+
+<!-- Job Details -->
+<div class="premium-card animate-entrance mb-4">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+        <div>
+            <h6 class="mb-1" style="color: var(--text-primary);">
+                <i class="bi bi-info-circle me-1" style="color:#818CF8;"></i> Job Status
+            </h6>
+        </div>
+        <div>
+            {% if job.status == 'COMPLETED' %}
+            <span class="badge-glow-success">Completed</span>
+            {% elif job.status == 'FAILED' %}
+            <span class="badge-glow-danger">Failed</span>
+            {% elif job.status == 'PENDING' %}
+            <span class="badge-glow-warning">Pending</span>
+            {% else %}
+            <span class="badge-glow-info">{{ job.get_status_display }}</span>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Progress -->
+    <div class="mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <span style="color: var(--text-muted);">Progress</span>
+            <span style="color: var(--text-primary); font-weight: 600;">{{ job.progress }}%</span>
+        </div>
+        <div class="progress-dark">
+            <div class="progress-bar-gradient" style="width: {{ job.progress }}%"></div>
+        </div>
+    </div>
+
+    {% if job.status_detail %}
+    <p class="mb-0" style="font-size: 0.9rem; color: var(--text-secondary);">
+        <i class="bi bi-chat-dots me-1"></i> {{ job.status_detail }}
+    </p>
+    {% endif %}
+</div>
+
+<!-- Error Message -->
+{% if job.error_message %}
+<div class="alert-dark-glass alert-danger mb-4 animate-entrance">
+    <i class="bi bi-exclamation-triangle me-2"></i>
+    {{ job.error_message }}
+</div>
+{% endif %}
+
+<!-- Stats -->
+<div class="row g-3 mb-4">
+    <div class="col-md-4 col-6">
+        <div class="stat-card stat-card-info tilt-card animate-entrance">
+            <div class="stat-number" data-count="{{ job.questions_extracted }}">0</div>
+            <div class="stat-label">Questions Extracted</div>
+        </div>
+    </div>
+    <div class="col-md-4 col-6">
+        <div class="stat-card stat-card-primary tilt-card animate-entrance">
+            <div class="stat-number" data-count="{{ job.questions_classified }}">0</div>
+            <div class="stat-label">Questions Classified</div>
+        </div>
+    </div>
+    <div class="col-md-4 col-12">
+        <div class="stat-card stat-card-warning tilt-card animate-entrance">
+            <div class="stat-number" data-count="{{ job.duplicates_found }}">0</div>
+            <div class="stat-label">Duplicates Found</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

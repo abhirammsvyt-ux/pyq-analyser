@@ -1,0 +1,152 @@
+{
+  "subject_code": "AMT305",
+  "subject_name": "Machine Learning",
+  "exam_year": 2022,
+  "exam_month": "December",
+  "questions": [
+    {
+      "q_number": 1,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 1,
+      "text": "Distinguish between classification and regression."
+    },
+    {
+      "q_number": 2,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 1,
+      "text": "What is meant by k-fold cross validation. Given a dataset with 1600 instances, how the k-fold validation is done with k = 10."
+    },
+    {
+      "q_number": 3,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 2,
+      "text": "AT"
+    },
+    {
+      "q_number": 4,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 2,
+      "text": "Actual Predicted"
+    },
+    {
+      "q_number": 5,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 3,
+      "text": "J"
+    },
+    {
+      "q_number": 6,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 3,
+      "text": "aJ"
+    },
+    {
+      "q_number": 7,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 4,
+      "text": "aJ"
+    },
+    {
+      "q_number": 8,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 4,
+      "text": "aJ"
+    },
+    {
+      "q_number": 9,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 5,
+      "text": "8"
+    },
+    {
+      "q_number": 10,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 5,
+      "text": "6"
+    },
+    {
+      "q_number": 12,
+      "sub": "a",
+      "part": "B",
+      "marks": 6,
+      "module": 1,
+      "text": "Write a short note on hypothesis space, version space, most specific and most general hypothesis. I"
+    },
+    {
+      "q_number": 12,
+      "sub": "b",
+      "part": "B",
+      "marks": 8,
+      "module": 1,
+      "text": "Define VC dimension? Show that an axis aligned rectangle can shatter 4 points in 2 dimensions."
+    },
+    {
+      "q_number": 13,
+      "sub": "a",
+      "part": "B",
+      "marks": 7,
+      "module": 2,
+      "text": "The below dataset contains features such as Colour, Type and Origin of cars and the class whether it is stolen. not stolen. Example No Colour Type Origin Whether Stolen I Red Sports Domestic Yes 2 Red Sports Domestic No J Red Sports Domestic Yes 4 Yellow Sports Domestic No 5 Yellow Sports Imported Yes 6 Yellow SUV lmported No 7 Yellow SUV Imported Yes 8 Yellow SUV Domestic No 9 Red SUV Imported No l0 Red Sports Imported Yes Use Naive Bayes algorithm to determine whether a red domestic SUV car is stolen or not."
+    },
+    {
+      "q_number": 13,
+      "sub": "b",
+      "part": "B",
+      "marks": 7,
+      "module": 2,
+      "text": "Use the following data to construct a linear regression model for an auto iqrsurance prgmium as a function of driving experience. Driving experience (in years) 5 2 t2 9 l5 6 25 t6 Monthly auto insurance premium ($)- '64 87 50 71 44 56 42 60"
+    },
+    {
+      "q_number": 14,
+      "sub": "a",
+      "part": "B",
+      "marks": 6,
+      "module": 2,
+      "text": "Explain the procedure to reduce the dimensionality of a dataset using principal component analysis."
+    },
+    {
+      "q_number": 14,
+      "sub": "b",
+      "part": "B",
+      "marks": 8,
+      "module": 2,
+      "text": "Given the following data on a certain set of patients seen by a doctor, can the doctor conclude that the person having chills, fever, mild headache and without running nose has a flu? b) 6 8 Chills Running Nose Headache Fever Has Flu Y N I Mild Y N Y Y No N Y Y N Strons Y Y N Y Mild Y Y N N No N N N Y Strons Y Y N Y Strong N N Y Y Mild Y Y Construct a decision tree using ID3 algorithm and predict the class for the above case."
+    },
+    {
+      "q_number": 15,
+      "sub": "a",
+      "part": "B",
+      "marks": 8,
+      "module": 3,
+      "text": "Consider a two-class classification problem of predicting whether a photograph contains a man or a woman. Suppose we have a test dataset of l0 records with expected outcomes and set of predictions from our classification algorithm. Expected Predicted I Man Woman '2 Man Man aJ Woman Woman 4 Man Man 5 Woman Man 6 Woman Woman 7 Woman Woman 8 Man Man 9 .;- Man Woman l0 Woman Woman - ,-:' compute the confusion matrix for the data. Also, compute the accuracy, precision, recall, specificity and f-score."
+    },
+    {
+      "q_number": 15,
+      "sub": "b",
+      "part": "B",
+      "marks": 6,
+      "module": 3,
+      "text": "compute the output of the following neuron if"
+    }
+  ]
+}

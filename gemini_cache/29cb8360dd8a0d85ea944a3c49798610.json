@@ -1,0 +1,168 @@
+{
+"subject_code": "CST 303",
+"subject_name": "COMPUTER NETWORKS",
+"exam_year": 2022,
+"exam_month": "November",
+"questions": [
+{
+"q_number": 1,
+"sub": "",
+"part": "A",
+"marks": 3,
+"module": 1,
+"text": "Differentiate between the three concepts Layers, Protocols and Interfaces in network architecture. Draw a diagram showing the relationship between the three."
+},
+{
+"q_number": 2,
+"sub": "",
+"part": "A",
+"marks": 3,
+"module": 1,
+"text": "How many bits can fit on a link with a 4 ms delay, if the bandwidth of the link is a. I Mbps? b. l0 Mbps? c. 100 Mbps?"
+},
+{
+"q_number": 3,
+"sub": "",
+"part": "A",
+"marks": 3,
+"module": 2,
+"text": "The following character encoding is used in a data link protocol: A:0l000lll; B: lll000ll; FLAG:0llllll0; ESC: 11100000 Show the bit sequence transmitted (in binary) for the four-character frame: A B ESC FLAG when Flag bytes with byte stuffing is used."
+},
+{
+"q_number": 4,
+"sub": "",
+"part": "A",
+"marks": 3,
+"module": 2,
+"text": "Explain the working of Go-back-N protocol."
+},
+{
+"q_number": 5,
+"sub": "",
+"part": "A",
+"marks": 3,
+"module": 3,
+"text": "Differentiate between Adaptive and Non-Adaptive routing algorithms. Give example for each type."
+},
+{
+"q_number": 6,
+"sub": "",
+"part": "A",
+"marks": 3,
+"module": 3,
+"text": "How do Leaky bucket algorithm ensure QoS in computer networks?"
+},
+{
+"q_number": 7,
+"sub": "",
+"part": "A",
+"marks": 3,
+"module": 4,
+"text": "Find the class of the following IP addresses: a. llll0lll llll00ll l0000lll ll0lll0l b. l0l0lnl 11000000 llll0000 00011101 c. ll0lllll 10110000 000lllll 0l0lll0l"
+},
+{
+"q_number": 8,
+"sub": "",
+"part": "A",
+"marks": 3,
+"module": 4,
+"text": "How does BGP solve the Count to Infinity problem?"
+},
+{
+"q_number": 9,
+"sub": "",
+"part": "A",
+"marks": 3,
+"module": 5,
+"text": "Explain TCP connection establishment process."
+},
+{
+"q_number": 10,
+"sub": "",
+"part": "A",
+"marks": 3,
+"module": 5,
+"text": "What is a URL? Write a URL and explain its constituent parts."
+},
+{
+"q_number": 11,
+"sub": "",
+"part": "B",
+"marks": 14,
+"module": 1,
+"text": "Compare OSI reference model with TCP/Ip architecture."
+},
+{
+"q_number": 12,
+"sub": "",
+"part": "B",
+"marks": 14,
+"module": 1,
+"text": "Describe the classification of networks based on scale."
+},
+{
+"q_number": 13,
+"sub": "",
+"part": "B",
+"marks": 14,
+"module": 2,
+"text": "what is the function of MAC sublayer of data link layer? Explain the working principles of different CSMA protocols for wired network."
+},
+{
+"q_number": 14,
+"sub": "",
+"part": "B",
+"marks": 14,
+"module": 2,
+"text": "Explain the working of HDLC protocol. Draw HDLC frame format and the different types of HDLC control frames."
+},
+{
+"q_number": 15,
+"sub": "",
+"part": "B",
+"marks": 14,
+"module": 3,
+"text": "Illustrate the working of Link state routing algorithm."
+},
+{
+"q_number": 16,
+"sub": "",
+"part": "B",
+"marks": 14,
+"module": 3,
+"text": "Compare Virtual circuit and Datagram subnets."
+},
+{
+"q_number": 17,
+"sub": "",
+"part": "B",
+"marks": 14,
+"module": 4,
+"text": "compute shortest path from node A to node H, using Shortest path routing. Illustrate the steps involved."
+},
+{
+"q_number": 18,
+"sub": "",
+"part": "B",
+"marks": 14,
+"module": 4,
+"text": "What are the primary mechanisms for ensuring good QoS in a network? Explain each"
+},
+{
+"q_number": 19,
+"sub": "",
+"part": "B",
+"marks": 14,
+"module": 5,
+"text": "Describe IEEE 802.3 Ethernet's cabling and frame format."
+},
+{
+"q_number": 20,
+"sub": "",
+"part": "B",
+"marks": 14,
+"module": 5,
+"text": "Explain the purpose and working of CSMA/CA in wireless LAN."
+}
+]
+}

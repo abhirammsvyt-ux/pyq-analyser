@@ -1,0 +1,30 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Analytics - Subjects{% endblock %}
+
+{% block content %}
+<h3 class="page-heading" data-word-stagger><i class="bi bi-bar-chart"></i> Analytics</h3>
+
+{% for subject in subjects %}
+<div class="premium-card animate-entrance mb-3">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <div>
+            <h5 class="mb-1 fw-bold" style="color:var(--text-primary);">{{ subject.name }}</h5>
+            <small class="text-muted">{{ subject.code }} | {{ subject.get_paper_count }} papers</small>
+        </div>
+        <div class="d-flex gap-2 align-items-center flex-wrap">
+            <span class="tier-badge-1">T1: {{ subject.tier_1_count }}</span>
+            <span class="tier-badge-2">T2: {{ subject.tier_2_count }}</span>
+            <span class="tier-badge-3">T3: {{ subject.tier_3_count }}</span>
+            <span class="tier-badge-4">T4: {{ subject.tier_4_count }}</span>
+            <a href="{% url 'analytics:subject_dashboard' subject_pk=subject.pk %}" class="btn-glow ms-2" style="padding:0.4rem 1rem;font-size:0.85rem;">View</a>
+        </div>
+    </div>
+</div>
+{% empty %}
+<div class="empty-state">
+    <i class="bi bi-bar-chart"></i>
+    <p>No subjects with analytics data yet.</p>
+</div>
+{% endfor %}
+{% endblock %}

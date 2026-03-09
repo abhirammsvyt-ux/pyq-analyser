@@ -1,0 +1,153 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Register - KTU PYQ Analyzer{% endblock %}
+
+{% block extra_css %}
+<style>
+  .auth-hero {
+    min-height: 88vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    background: linear-gradient(135deg, #F0F4FF 0%, #FAF5FF 40%, #EFF6FF 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .auth-hero::before {
+    content: '';
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(16,185,129,0.07) 0%, transparent 70%);
+    top: -200px;
+    right: -200px;
+    pointer-events: none;
+  }
+  .auth-hero::after {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%);
+    bottom: -150px;
+    left: -150px;
+    pointer-events: none;
+  }
+  .auth-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 24px;
+    padding: 2.75rem 2.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05), 0 20px 60px rgba(16,185,129,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    animation: cardEntrance 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+  }
+  @keyframes cardEntrance {
+    from { opacity: 0; transform: translateY(28px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0)   scale(1);    }
+  }
+  .auth-card-accent {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #10B981, #6366F1, #8B5CF6);
+    border-radius: 24px 24px 0 0;
+  }
+  .auth-icon-wrap {
+    width: 64px; height: 64px; border-radius: 18px;
+    background: linear-gradient(135deg, #10B981, #34D399);
+    color: #FFFFFF; font-size: 1.55rem;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 6px 20px rgba(16,185,129,0.35);
+  }
+  .auth-heading {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1.75rem; font-weight: 800; color: #0F172A;
+    letter-spacing: -0.5px; margin-bottom: 0.35rem;
+  }
+  .auth-subheading { font-size: 0.95rem; color: #64748B; margin-bottom: 0; }
+  .reg-field-group { margin-bottom: 1.15rem; }
+  .reg-field-label {
+    display: block; font-size: 0.82rem; font-weight: 600;
+    color: #374151; margin-bottom: 0.4rem; letter-spacing: 0.2px;
+  }
+  .reg-field-error { color: #EF4444; font-size: 0.8rem; margin-top: 0.3rem; }
+  .btn-register {
+    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    width: 100%; position: relative; overflow: hidden;
+    border-radius: 12px; padding: 14px 28px; font-weight: 700; font-size: 1rem;
+    cursor: pointer; z-index: 0;
+    background: linear-gradient(135deg, #10B981, #059669);
+    color: #FFFFFF; border: none;
+    box-shadow: 0 4px 14px rgba(16,185,129,0.30);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    letter-spacing: 0.3px; margin-top: 0.5rem;
+    transition: all 0.3s ease;
+  }
+  .btn-register::before {
+    content: ''; position: absolute; width: 0; height: 0;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    border-radius: 50%; background: rgba(255,255,255,0.15);
+    transition: width 0.6s cubic-bezier(0.23,1,0.32,1), height 0.6s cubic-bezier(0.23,1,0.32,1);
+    z-index: -1;
+  }
+  .btn-register:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(16,185,129,0.42); color: #FFFFFF; }
+  .btn-register:hover::before { width: 400px; height: 400px; }
+  .auth-footer-link { text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: #64748B; }
+  .auth-footer-link a { color: #6366F1; font-weight: 600; text-decoration: none; transition: all 0.3s ease; }
+  .auth-footer-link a:hover { color: #4F46E5; text-decoration: underline; text-underline-offset: 3px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-hero">
+  <div style="width:100%;max-width:480px;margin:0 auto;position:relative;z-index:1;">
+    <div class="auth-card">
+      <div class="auth-card-accent"></div>
+      <div class="text-center mb-4">
+        <div class="auth-icon-wrap">
+          <i class="bi bi-person-plus"></i>
+        </div>
+        <h2 class="auth-heading">Create Account</h2>
+        <p class="auth-subheading">Get started with KTU PYQ Analyzer</p>
+      </div>
+      <form method="post" novalidate>
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="reg-field-group">
+          <label class="reg-field-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}
+          <div class="reg-field-error">{{ field.errors.0 }}</div>
+          {% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn-register">
+          <i class="bi bi-person-check"></i> Create Account
+        </button>
+      </form>
+      <div class="auth-footer-link">
+        Already have an account? <a href="{% url 'users:login' %}">Sign in</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  /* Premium input styling is handled by initPremiumInputs() in interactive.js */
+  /* Just ensure reg-field-group inputs get base styling */
+  document.querySelectorAll('.reg-field-group input, .reg-field-group select').forEach(function(el) {
+    el.style.cssText = 'width:100%;background:#FAFBFF;border:1.5px solid #E2E8F0;border-radius:12px;color:#0F172A;padding:14px 18px;font-size:15px;line-height:1.6;font-family:inherit;outline:none;transition:all 0.3s ease;min-height:52px;height:auto;overflow:visible;white-space:normal;text-overflow:unset;';
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% load static %}
+<footer class="bg-gray-800 text-white mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <h3 class="text-lg font-bold mb-4">PYQ Analyzer</h3>
+                <p class="text-gray-400 text-sm">
+                    AI-powered repeated question analysis for better exam preparation.
+                </p>
+            </div>
+            
+            <div>
+                <h3 class="text-lg font-bold mb-4">Quick Links</h3>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="{% url 'analytics:subject_list' %}" class="text-gray-400 hover:text-white transition-colors">Dashboard</a></li>
+                    <li><a href="{% url 'papers:upload_generic' %}" class="text-gray-400 hover:text-white transition-colors">Upload Papers</a></li>
+                    <li><a href="{% url 'subjects:list' %}" class="text-gray-400 hover:text-white transition-colors">Subjects</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3 class="text-lg font-bold mb-4">About</h3>
+                <p class="text-gray-400 text-sm">
+                    Built with Django, TailwindCSS, and AI-powered clustering for semantic question analysis.
+                </p>
+            </div>
+        </div>
+        
+        <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400 text-sm">
+            <p>&copy; 2025 PYQ Analyzer. All rights reserved.</p>
+        </div>
+    </div>
+</footer>

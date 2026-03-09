@@ -1,0 +1,603 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Upload Papers - KTU PYQ Analyzer{% endblock %}
+
+{% block content %}
+<style>
+/* ── Upload page light theme ─────────────────────────────────── */
+.upload-page-hero {
+    text-align: center;
+    padding: 2.5rem 1rem 1.5rem;
+    margin-bottom: 0.5rem;
+}
+.upload-hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #6366f1;
+    background: rgba(99,102,241,0.08);
+    border: 1px solid rgba(99,102,241,0.18);
+    border-radius: 999px;
+    padding: 0.3rem 0.9rem;
+    margin-bottom: 1rem;
+}
+.upload-hero-title {
+    font-size: clamp(1.9rem, 4vw, 2.8rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #1e1b4b 0%, #4338ca 45%, #6366f1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.75rem;
+}
+.upload-hero-sub {
+    font-size: 1rem;
+    color: #64748b;
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* ── Glass card ───────────────────────────────────────────────── */
+.glass-card-light {
+    background: #ffffff;
+    border: 1px solid rgba(99,102,241,0.12);
+    border-radius: 20px;
+    box-shadow:
+        0 1px 3px rgba(0,0,0,0.04),
+        0 8px 32px rgba(99,102,241,0.08),
+        0 24px 64px rgba(99,102,241,0.05);
+    overflow: visible;
+}
+
+/* ── Form section ─────────────────────────────────────────────── */
+.form-section-light {
+    padding: 1.75rem 2rem;
+    border-bottom: 1px solid rgba(99,102,241,0.08);
+}
+.form-section-light:last-of-type {
+    border-bottom: none;
+}
+.form-section-title-light {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #6366f1;
+    margin-bottom: 1.25rem;
+}
+.form-section-title-light::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(99,102,241,0.25) 0%, transparent 100%);
+}
+
+/* ── Floating labels ──────────────────────────────────────────── */
+.floating-label-group {
+    position: relative;
+    margin-bottom: 1.1rem;
+}
+.floating-label-group:last-child {
+    margin-bottom: 0;
+}
+.form-control-light {
+    width: 100%;
+    background: #f8faff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    color: #1e293b;
+    font-size: 15px;
+    line-height: 1.6;
+    padding: 14px 18px;
+    min-height: 52px;
+    height: auto;
+    overflow: visible;
+    white-space: normal;
+    text-overflow: unset;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    outline: none;
+    -webkit-appearance: none;
+}
+.form-control-light::placeholder {
+    color: transparent;
+}
+.form-control-light:focus {
+    border-color: #6366f1;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+}
+.form-control-light:disabled,
+.form-control-light[readonly] {
+    background: #f1f5f9;
+    color: #64748b;
+    cursor: not-allowed;
+}
+.floating-label {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 15px;
+    color: #94a3b8;
+    pointer-events: none;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: left center;
+    z-index: 3;
+    background: transparent;
+    padding: 0 4px;
+    line-height: 1;
+}
+.form-control-light:focus ~ .floating-label,
+.form-control-light:not(:placeholder-shown) ~ .floating-label,
+.form-control-light.has-value ~ .floating-label {
+    top: -10px;
+    transform: none;
+    font-size: 11px;
+    color: #6366f1;
+    font-weight: 600;
+    background: #fff;
+    letter-spacing: 0.05em;
+    z-index: 4;
+    padding: 0 4px;
+}
+
+/* ── Pill toggle (university type) ───────────────────────────── */
+.pill-toggle-group {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.1rem;
+}
+.pill-toggle-group input[type="radio"] {
+    display: none;
+}
+.pill-toggle-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1.25rem;
+    border-radius: 999px;
+    border: 1.5px solid #e2e8f0;
+    background: #f8faff;
+    color: #64748b;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+.pill-toggle-group input[type="radio"]:checked + .pill-toggle-label {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    border-color: transparent;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(99,102,241,0.35);
+}
+.pill-toggle-label:hover {
+    border-color: #a5b4fc;
+    color: #4338ca;
+}
+
+/* ── Upload zone ──────────────────────────────────────────────── */
+.upload-zone-light {
+    position: relative;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #f8faff 0%, #f0f4ff 100%);
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    overflow: visible;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+.upload-zone-light:hover {
+    background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+}
+.upload-zone-light.drag-over {
+    background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+}
+.upload-zone-svg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    border-radius: 16px;
+    overflow: hidden;
+}
+.upload-zone-svg rect {
+    fill: none;
+    stroke: #6366f1;
+    stroke-width: 2;
+    stroke-dasharray: 8 4;
+    stroke-linecap: round;
+    animation: marchingDashes 1s linear infinite;
+}
+@keyframes marchingDashes {
+    to { stroke-dashoffset: -24; }
+}
+.upload-zone-icon {
+    font-size: 2.5rem;
+    color: #6366f1;
+    line-height: 1;
+    filter: drop-shadow(0 4px 10px rgba(99,102,241,0.25));
+    transition: transform 0.3s ease;
+}
+.upload-zone-light:hover .upload-zone-icon {
+    transform: translateY(-4px);
+}
+.upload-zone-text {
+    font-size: 0.97rem;
+    font-weight: 600;
+    color: #334155;
+    margin: 0;
+}
+.upload-zone-hint {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    margin: 0;
+}
+.upload-zone-light input[type="file"] {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* ── Syllabus upload zone (smaller) ──────────────────────────── */
+.upload-zone-sm {
+    position: relative;
+    border-radius: 12px;
+    background: #f8faff;
+    border: 1.5px dashed #c7d2fe;
+    padding: 1.25rem 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+.upload-zone-sm:hover {
+    border-color: #6366f1;
+    background: #eef2ff;
+}
+.upload-zone-sm-icon {
+    font-size: 1.4rem;
+    color: #818cf8;
+}
+.upload-zone-sm-text {
+    font-size: 0.88rem;
+    color: #64748b;
+    margin: 0;
+}
+.upload-zone-sm-text strong {
+    color: #4338ca;
+}
+.upload-zone-sm input[type="file"] {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* ── File list ────────────────────────────────────────────────── */
+.file-list-container {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.file-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: #f8faff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 0.65rem 1rem;
+    font-size: 0.88rem;
+    color: #334155;
+    animation: slideInFile 0.25s ease forwards;
+    opacity: 0;
+    transform: translateY(8px);
+}
+@keyframes slideInFile {
+    to { opacity: 1; transform: translateY(0); }
+}
+.file-list-item .file-icon {
+    font-size: 1.1rem;
+    color: #ef4444;
+    flex-shrink: 0;
+}
+.file-list-item .file-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.file-list-item .file-size {
+    font-size: 0.78rem;
+    color: #94a3b8;
+    flex-shrink: 0;
+}
+
+/* ── Submit button ────────────────────────────────────────────── */
+.btn-slide {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.95rem 2rem;
+    border: none;
+    border-radius: 14px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-slide::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    transition: transform 0.4s ease;
+}
+.btn-slide:hover::before {
+    transform: translateX(0);
+}
+.btn-slide:hover {
+    transform: translateY(-2px);
+}
+.btn-slide:active {
+    transform: translateY(0);
+}
+.btn-slide-indigo {
+    background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
+    color: #ffffff;
+    box-shadow: 0 6px 24px rgba(99,102,241,0.35), 0 1px 3px rgba(0,0,0,0.08);
+}
+.btn-slide-indigo::before {
+    background: linear-gradient(135deg, #4338ca 0%, #3730a3 100%);
+}
+.btn-slide-indigo:hover {
+    box-shadow: 0 12px 36px rgba(99,102,241,0.45), 0 1px 3px rgba(0,0,0,0.08);
+    color: #fff;
+}
+.btn-slide span {
+    position: relative;
+    z-index: 1;
+}
+
+/* ── AOS-like fade-up (simple CSS fallback) ───────────────────── */
+[data-aos="fade-up"] {
+    animation: aosUpIn 0.55s ease both;
+}
+[data-aos="fade-up"][data-aos-delay="100"] { animation-delay: 0.1s; }
+[data-aos="fade-up"][data-aos-delay="200"] { animation-delay: 0.2s; }
+[data-aos="fade-up"][data-aos-delay="300"] { animation-delay: 0.3s; }
+[data-aos="fade-up"][data-aos-delay="400"] { animation-delay: 0.4s; }
+@keyframes aosUpIn {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── University name conditional logic ───────────────────────── */
+#universityNameWrap { transition: opacity 0.25s; }
+</style>
+
+<div class="upload-page-hero" data-aos="fade-up">
+    <div class="upload-hero-eyebrow">
+        <i class="bi bi-cloud-upload"></i> Paper Manager
+    </div>
+    <h1 class="upload-hero-title">Upload Your Papers</h1>
+    <p class="upload-hero-sub">Add question papers with subject details and let the analyzer extract and cluster topics automatically.</p>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-7 col-md-9">
+        <div class="glass-card-light" data-aos="fade-up" data-aos-delay="100">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- Subject Information -->
+                <div class="form-section-light" data-aos="fade-up" data-aos-delay="150">
+                    <div class="form-section-title-light">
+                        <i class="bi bi-book-half"></i> Subject Information
+                    </div>
+
+                    <div class="floating-label-group">
+                        <input type="text" name="subject_name" id="subjectName"
+                               class="form-control-light" placeholder=" " required>
+                        <label class="floating-label" for="subjectName">Subject Name (e.g. Data Structures)</label>
+                    </div>
+
+                    <div class="floating-label-group">
+                        <input type="text" name="subject_code" id="subjectCode"
+                               class="form-control-light" placeholder=" ">
+                        <label class="floating-label" for="subjectCode">Subject Code (e.g. CS201)</label>
+                    </div>
+                </div>
+
+                <!-- University Information -->
+                <div class="form-section-light" data-aos="fade-up" data-aos-delay="200">
+                    <div class="form-section-title-light">
+                        <i class="bi bi-building"></i> University Information
+                    </div>
+
+                    <div class="pill-toggle-group mb-3">
+                        <input type="radio" name="university_type" id="uniKTU" value="KTU" checked>
+                        <label class="pill-toggle-label" for="uniKTU">
+                            <i class="bi bi-mortarboard-fill"></i> KTU
+                        </label>
+                        <input type="radio" name="university_type" id="uniOther" value="Other">
+                        <label class="pill-toggle-label" for="uniOther">
+                            <i class="bi bi-building"></i> Other
+                        </label>
+                    </div>
+
+                    <div id="universityNameWrap">
+                        <div class="floating-label-group">
+                            <input type="text" name="university_name" id="universityName"
+                                   class="form-control-light has-value" value="KTU" placeholder=" ">
+                            <label class="floating-label" for="universityName">University Name</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question Papers Upload -->
+                <div class="form-section-light" data-aos="fade-up" data-aos-delay="250">
+                    <div class="form-section-title-light">
+                        <i class="bi bi-file-earmark-pdf-fill"></i> Question Papers (PDF)
+                    </div>
+
+                    <div class="upload-zone-light" id="dropZone">
+                        <svg class="upload-zone-svg" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="1" y="1" width="calc(100% - 2px)" height="calc(100% - 2px)" rx="15" ry="15"></rect>
+                        </svg>
+                        <i class="bi bi-cloud-arrow-up upload-zone-icon"></i>
+                        <p class="upload-zone-text">Drag &amp; drop PDF files here or click to browse</p>
+                        <p class="upload-zone-hint">Max 50&nbsp;MB per file &bull; PDF format only &bull; Multiple files allowed</p>
+                        <input type="file" name="files" id="filesInput" accept=".pdf" multiple required>
+                    </div>
+
+                    <div class="file-list-container" id="fileList"></div>
+                </div>
+
+                <!-- Syllabus Upload (Optional) -->
+                <div class="form-section-light" data-aos="fade-up" data-aos-delay="300">
+                    <div class="form-section-title-light">
+                        <i class="bi bi-file-text"></i> Syllabus (Optional)
+                    </div>
+
+                    <div class="upload-zone-sm" id="syllabusZone">
+                        <i class="bi bi-file-earmark-text upload-zone-sm-icon"></i>
+                        <p class="upload-zone-sm-text">
+                            <strong>Attach syllabus PDF</strong> &mdash; helps improve module detection
+                        </p>
+                        <input type="file" name="syllabus_file" id="syllabusFile" accept=".pdf">
+                    </div>
+                    <div class="file-list-container" id="syllabusList"></div>
+                </div>
+
+                <!-- Submit — Slide-to-confirm -->
+                <div class="form-section-light" style="border-bottom: none;" data-aos="fade-up" data-aos-delay="400">
+                    <div class="slide-btn-container">
+                        <div class="slide-btn-fill"></div>
+                        <div class="slide-btn-hint">Slide to Upload</div>
+                        <div class="slide-btn-handle">
+                            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+(function () {
+    /* ── University toggle ── */
+    var radios  = document.querySelectorAll('input[name="university_type"]');
+    var uniName = document.getElementById('universityName');
+
+    radios.forEach(function (radio) {
+        radio.addEventListener('change', function () {
+            var group = uniName.closest('.floating-label-group');
+            if (this.value === 'KTU') {
+                uniName.value = 'KTU';
+                uniName.readOnly = true;
+                uniName.classList.add('has-value');
+                if (group) group.classList.add('has-content');
+            } else {
+                uniName.value = '';
+                uniName.readOnly = false;
+                uniName.classList.remove('has-value');
+                if (group) group.classList.remove('has-content');
+                uniName.focus();
+            }
+        });
+    });
+
+    /* ── File list renderer ── */
+    function formatBytes(bytes) {
+        if (bytes === 0) return '0 B';
+        var k = 1024, sizes = ['B','KB','MB','GB'];
+        var i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+    }
+
+    function renderFileList(input, listEl) {
+        listEl.innerHTML = '';
+        var files = Array.from(input.files || []);
+        files.forEach(function (f, idx) {
+            var item = document.createElement('div');
+            item.className = 'file-list-item';
+            item.style.animationDelay = (idx * 0.05) + 's';
+            item.innerHTML =
+                '<i class="bi bi-file-earmark-pdf-fill file-icon"></i>' +
+                '<span class="file-name">' + escapeHtml(f.name) + '</span>' +
+                '<span class="file-size">' + formatBytes(f.size) + '</span>';
+            listEl.appendChild(item);
+        });
+    }
+
+    function escapeHtml(str) {
+        var d = document.createElement('div');
+        d.appendChild(document.createTextNode(str || ''));
+        return d.innerHTML;
+    }
+
+    var filesInput   = document.getElementById('filesInput');
+    var fileList     = document.getElementById('fileList');
+    var syllabusFile = document.getElementById('syllabusFile');
+    var syllabusList = document.getElementById('syllabusList');
+
+    if (filesInput)   filesInput.addEventListener('change',   function () { renderFileList(filesInput, fileList); });
+    if (syllabusFile) syllabusFile.addEventListener('change', function () { renderFileList(syllabusFile, syllabusList); });
+
+    /* ── Drag-over highlight ── */
+    var dropZone = document.getElementById('dropZone');
+    if (dropZone) {
+        ['dragenter','dragover'].forEach(function (ev) {
+            dropZone.addEventListener(ev, function (e) {
+                e.preventDefault();
+                dropZone.classList.add('drag-over');
+            });
+        });
+        ['dragleave','drop'].forEach(function (ev) {
+            dropZone.addEventListener(ev, function () {
+                dropZone.classList.remove('drag-over');
+            });
+        });
+        dropZone.addEventListener('drop', function (e) {
+            e.preventDefault();
+            if (filesInput && e.dataTransfer && e.dataTransfer.files) {
+                filesInput.files = e.dataTransfer.files;
+                renderFileList(filesInput, fileList);
+            }
+        });
+    }
+}());
+</script>
+{% endblock %}

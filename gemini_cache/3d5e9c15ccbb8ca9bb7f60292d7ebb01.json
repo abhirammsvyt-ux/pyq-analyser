@@ -1,0 +1,232 @@
+{
+  "subject_code": "MCN 301",
+  "subject_name": "DISASTER MANAGEMENT",
+  "exam_year": 2024,
+  "exam_month": "June",
+  "questions": [
+    {
+      "q_number": 1,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 1,
+      "text": "Describe the role of the ozone layer in the Earth's atmosphere and its significance for life on the planet."
+    },
+    {
+      "q_number": 2,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 1,
+      "text": "Explain the greenhouse effect and its impact on global climate. Provide examples of greenhouse gases."
+    },
+    {
+      "q_number": 3,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 2,
+      "text": "Explain the significance of hazard mapping in disaster risk management."
+    },
+    {
+      "q_number": 4,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 2,
+      "text": "Define Natural Hazards and provide examples."
+    },
+    {
+      "q_number": 5,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 3,
+      "text": "Define the term ‘disaster risk reduction’."
+    },
+    {
+      "q_number": 6,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 3,
+      "text": "Define ‘relief’ in the context of disaster management."
+    },
+    {
+      "q_number": 7,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 4,
+      "text": "Why is crisis counselling important in the aftermath of a disaster, and how does it differ from regular counselling?"
+    },
+    {
+      "q_number": 8,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 4,
+      "text": "Define the concept of capacity building in the context of disaster risk reduction."
+    },
+    {
+      "q_number": 9,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 5,
+      "text": "What are the objectives of the National Disaster Management Policy?"
+    },
+    {
+      "q_number": 10,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 5,
+      "text": "State the legislations in India on disaster management."
+    },
+    {
+      "q_number": 11,
+      "sub": "a",
+      "part": "B",
+      "marks": 10,
+      "module": 1,
+      "text": "Classify the layers of Earth's atmosphere based on their distance from the surface and explain the distinctive features of each layer."
+    },
+    {
+      "q_number": 11,
+      "sub": "b",
+      "part": "B",
+      "marks": 4,
+      "module": 1,
+      "text": "Differentiate between disaster preparedness and disaster response."
+    },
+    {
+      "q_number": 12,
+      "sub": "",
+      "part": "B",
+      "marks": 14,
+      "module": 1,
+      "text": "Differentiate between igneous, sedimentary, and metamorphic rocks. Provide examples of each."
+    },
+    {
+      "q_number": 13,
+      "sub": "a",
+      "part": "B",
+      "marks": 10,
+      "module": 2,
+      "text": "Explain the types of vulnerabilities and approaches to assess them."
+    },
+    {
+      "q_number": 13,
+      "sub": "b",
+      "part": "B",
+      "marks": 4,
+      "module": 2,
+      "text": "Outline the two major physical Vulnerability assessment approaches."
+    },
+    {
+      "q_number": 14,
+      "sub": "a",
+      "part": "B",
+      "marks": 10,
+      "module": 2,
+      "text": "List the components of risk assessment Explain the contemporary approaches to risk assessment."
+    },
+    {
+      "q_number": 14,
+      "sub": "b",
+      "part": "B",
+      "marks": 4,
+      "module": 2,
+      "text": "Explain the application of hazard maps."
+    },
+    {
+      "q_number": 15,
+      "sub": "a",
+      "part": "B",
+      "marks": 7,
+      "module": 3,
+      "text": "Explain the core elements of disaster risk management."
+    },
+    {
+      "q_number": 15,
+      "sub": "b",
+      "part": "B",
+      "marks": 7,
+      "module": 3,
+      "text": "Discuss the role of international relief organizations in disaster response and recovery."
+    },
+    {
+      "q_number": 16,
+      "sub": "a",
+      "part": "B",
+      "marks": 7,
+      "module": 3,
+      "text": "Describe different types of disaster responses."
+    },
+    {
+      "q_number": 16,
+      "sub": "b",
+      "part": "B",
+      "marks": 7,
+      "module": 3,
+      "text": "State and explain the types of disaster mitigation measures."
+    },
+    {
+      "q_number": 17,
+      "sub": "a",
+      "part": "B",
+      "marks": 10,
+      "module": 4,
+      "text": "Explain the concept of participatory stakeholder engagement in the context of disaster management. Provide two examples of how involving stakeholders can enhance the effectiveness of disaster response and recovery efforts."
+    },
+    {
+      "q_number": 17,
+      "sub": "b",
+      "part": "B",
+      "marks": 4,
+      "module": 4,
+      "text": "Describe the key qualities and attributes that make a crisis counsellor effective."
+    },
+    {
+      "q_number": 18,
+      "sub": "a",
+      "part": "B",
+      "marks": 10,
+      "module": 4,
+      "text": "What are the steps to effective disaster communication?"
+    },
+    {
+      "q_number": 18,
+      "sub": "b",
+      "part": "B",
+      "marks": 4,
+      "module": 4,
+      "text": "Explain the differences between risk communication and crisis communication."
+    },
+    {
+      "q_number": 19,
+      "sub": "a",
+      "part": "B",
+      "marks": 10,
+      "module": 5,
+      "text": "What are the typical types of disasters that frequently occur in India?"
+    },
+    {
+      "q_number": 19,
+      "sub": "b",
+      "part": "B",
+      "marks": 4,
+      "module": 5,
+      "text": "Explain the institutional arrangement for disaster management in India."
+    },
+    {
+      "q_number": 20,
+      "sub": "",
+      "part": "B",
+      "marks": 14,
+      "module": 5,
+      "text": "Explain the guiding principles target and priorities for action according to the Sendai Framework for disaster risk reduction."
+    }
+  ]
+}

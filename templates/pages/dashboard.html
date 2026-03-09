@@ -1,0 +1,59 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Dashboard - KTU PYQ Analyzer{% endblock %}
+
+{% block content %}
+<h2 class="page-heading animate-entrance" data-word-stagger><i class="bi bi-speedometer2"></i> Dashboard</h2>
+
+<div class="row g-4 mb-4" data-aos="fade-up">
+    <div class="col-md-3 col-6">
+        <div class="stat-card stat-card-primary tilt-card animate-entrance">
+            <div class="stat-number" data-count="{{ total_subjects }}">0</div>
+            <div class="stat-label">Subjects</div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="stat-card stat-card-success tilt-card animate-entrance">
+            <div class="stat-number" data-count="{{ total_papers }}">0</div>
+            <div class="stat-label">Papers</div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="stat-card stat-card-info tilt-card animate-entrance">
+            <div class="stat-number" data-count="{{ total_questions }}">0</div>
+            <div class="stat-label">Questions</div>
+        </div>
+    </div>
+    <div class="col-md-3 col-6">
+        <div class="stat-card stat-card-warning animate-entrance" style="display:flex;align-items:center;justify-content:center;">
+            <a href="{% url 'papers:upload_generic' %}" class="btn-glow w-100">
+                <i class="bi bi-plus-circle me-1"></i> Upload Papers
+            </a>
+        </div>
+    </div>
+</div>
+
+{% if recent_subjects %}
+<h4 class="fw-bold mb-3 animate-entrance" style="color: var(--text-primary);">Recent Subjects</h4>
+<div class="row g-3" data-aos="fade-up">
+    {% for subject in recent_subjects %}
+    <div class="col-md-6">
+        <div class="premium-card tilt-card animate-entrance">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="mb-1 fw-bold" style="color: var(--text-primary);">{{ subject.name }}</h6>
+                    <small style="color:var(--text-secondary)">{{ subject.code }} | {{ subject.get_paper_count }} papers</small>
+                </div>
+                <a href="{% url 'papers:processing_status' subject_pk=subject.pk %}" class="btn-glow" style="padding:0.4rem 1rem;font-size:0.85rem;">View</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state animate-entrance">
+    <i class="bi bi-inbox"></i>
+    <p>No subjects yet. Upload your first question papers to get started!</p>
+</div>
+{% endif %}
+{% endblock %}

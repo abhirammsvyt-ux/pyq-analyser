@@ -1,0 +1,309 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Login - KTU PYQ Analyzer{% endblock %}
+
+{% block extra_css %}
+<style>
+  .auth-hero {
+    min-height: 88vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    background: linear-gradient(135deg, #F0F4FF 0%, #FAF5FF 40%, #EFF6FF 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .auth-hero::before {
+    content: '';
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(99,102,241,0.07) 0%, transparent 70%);
+    top: -200px;
+    left: -200px;
+    pointer-events: none;
+  }
+  .auth-hero::after {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 70%);
+    bottom: -150px;
+    right: -150px;
+    pointer-events: none;
+  }
+  .auth-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 24px;
+    padding: 2.75rem 2.5rem;
+    box-shadow:
+      0 4px 6px rgba(0,0,0,0.05),
+      0 20px 60px rgba(99,102,241,0.10),
+      0 1px 2px rgba(0,0,0,0.04);
+    width: 100%;
+    max-width: 460px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    animation: cardEntrance 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+  }
+  @keyframes cardEntrance {
+    from { opacity: 0; transform: translateY(28px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0)   scale(1);    }
+  }
+  .auth-card-accent {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #6366F1, #8B5CF6, #3B82F6);
+    border-radius: 24px 24px 0 0;
+  }
+  .auth-icon-wrap {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #6366F1, #8B5CF6);
+    color: #FFFFFF;
+    font-size: 1.55rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 6px 20px rgba(99,102,241,0.35);
+  }
+  .auth-heading {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #0F172A;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.35rem;
+  }
+  .auth-subheading {
+    font-size: 0.95rem;
+    color: #64748B;
+    margin-bottom: 0;
+  }
+  .floating-label-group {
+    position: relative;
+    margin-bottom: 1.25rem;
+  }
+  .floating-label-group .form-control-light {
+    width: 100%;
+    background: #FAFBFF;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 12px;
+    color: #0F172A;
+    padding: 14px 18px;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 52px;
+    height: auto;
+    overflow: visible;
+    white-space: normal;
+    text-overflow: unset;
+    font-family: inherit;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    outline: none;
+    -webkit-appearance: none;
+  }
+  .floating-label-group .form-control-light:focus {
+    border-color: #6366F1;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 4px rgba(99,102,241,0.10);
+  }
+  .floating-label-group .floating-label {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94A3B8;
+    font-size: 15px;
+    font-weight: 500;
+    pointer-events: none;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    background: transparent;
+    padding: 0 4px;
+    z-index: 3;
+    line-height: 1;
+  }
+  .floating-label-group .form-control-light:focus ~ .floating-label,
+  .floating-label-group .form-control-light.has-value ~ .floating-label {
+    top: -10px;
+    transform: none;
+    font-size: 11px;
+    color: #6366F1;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    background: #FFFFFF;
+    z-index: 4;
+    padding: 0 4px;
+  }
+  .floating-label-group .input-icon {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #CBD5E1;
+    font-size: 1rem;
+    pointer-events: none;
+  }
+  .btn-slide-indigo-full {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    padding: 14px 28px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: color 0.35s ease;
+    z-index: 0;
+    background: linear-gradient(135deg, #6366F1, #8B5CF6);
+    color: #FFFFFF;
+    border: none;
+    box-shadow: 0 4px 14px rgba(99,102,241,0.30);
+    text-decoration: none;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    letter-spacing: 0.3px;
+  }
+  .btn-slide-indigo-full::before {
+    content: '';
+    position: absolute;
+    width: 0; height: 0;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    transition: width 0.6s cubic-bezier(0.23,1,0.32,1), height 0.6s cubic-bezier(0.23,1,0.32,1);
+    z-index: -1;
+  }
+  .btn-slide-indigo-full:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(99,102,241,0.42);
+    color: #FFFFFF;
+  }
+  .btn-slide-indigo-full:hover::before { width: 400px; height: 400px; }
+  .auth-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    color: #CBD5E1;
+    font-size: 0.85rem;
+  }
+  .auth-divider::before,
+  .auth-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #E2E8F0;
+  }
+  .auth-footer-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: #64748B;
+  }
+  .auth-footer-link a {
+    color: #6366F1;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  .auth-footer-link a:hover {
+    color: #4F46E5;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-hero">
+  <div style="width:100%;max-width:460px;margin:0 auto;position:relative;z-index:1;">
+
+    <div class="auth-card">
+      <div class="auth-card-accent"></div>
+
+      <!-- Icon + Heading -->
+      <div class="text-center mb-4">
+        <div class="auth-icon-wrap feature-icon feature-icon-indigo" style="width:64px;height:64px;font-size:1.55rem;">
+          <i class="bi bi-shield-lock"></i>
+        </div>
+        <h2 class="auth-heading">Welcome Back</h2>
+        <p class="auth-subheading">Sign in to continue to PYQ Analyzer</p>
+      </div>
+
+      <!-- Login Form -->
+      <form method="post" novalidate>
+        {% csrf_token %}
+
+        <div class="floating-label-group">
+          <input
+            type="email"
+            name="username"
+            id="id_username"
+            class="form-control-light"
+            placeholder=" "
+            autocomplete="email"
+            required
+          >
+          <label class="floating-label" for="id_username">Email Address</label>
+          <span class="input-icon"><i class="bi bi-envelope"></i></span>
+        </div>
+
+        <div class="floating-label-group mb-2">
+          <input
+            type="password"
+            name="password"
+            id="id_password"
+            class="form-control-light"
+            placeholder=" "
+            autocomplete="current-password"
+            required
+          >
+          <label class="floating-label" for="id_password">Password</label>
+          <span class="input-icon"><i class="bi bi-lock"></i></span>
+        </div>
+
+        <div class="mt-4">
+          <button type="submit" class="btn-slide-indigo-full">
+            <i class="bi bi-box-arrow-in-right"></i>
+            Sign In
+          </button>
+        </div>
+      </form>
+
+      <div class="auth-footer-link">
+        Don't have an account?
+        <a href="{% url 'users:register' %}">Create one free</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  /* Mark inputs as has-value for floating label trigger */
+  document.querySelectorAll('.floating-label-group .form-control-light').forEach(function(input) {
+    function toggle() {
+      input.classList.toggle('has-value', input.value.trim() !== '');
+    }
+    input.addEventListener('input', toggle);
+    input.addEventListener('change', toggle);
+    toggle();
+  });
+</script>
+{% endblock %}

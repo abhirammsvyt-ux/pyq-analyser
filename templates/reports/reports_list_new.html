@@ -1,0 +1,50 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Reports - {{ subject.name }}{% endblock %}
+
+{% block content %}
+<h3 class="page-heading" data-word-stagger><i class="bi bi-file-earmark-pdf"></i> Reports: {{ subject.name }}</h3>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="premium-card animate-entrance tilt-card" style="height:100%;">
+            <div class="feature-icon feature-icon-red mb-3" style="width:50px;height:50px;font-size:1.3rem;">
+                <i class="bi bi-collection"></i>
+            </div>
+            <h5 class="fw-bold" style="color:var(--text-primary);">All Module Reports</h5>
+            <p class="text-muted">Download priority-ranked study guide for all 5 modules as a ZIP file.</p>
+            <a href="{% url 'reports:public_all_modules' subject_pk=subject.pk %}" class="btn-glow-danger">
+                <i class="bi bi-download me-1"></i> Download All Modules (PDF)
+            </a>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="premium-card animate-entrance tilt-card" style="height:100%;">
+            <div class="feature-icon feature-icon-blue mb-3" style="width:50px;height:50px;font-size:1.3rem;">
+                <i class="bi bi-bar-chart"></i>
+            </div>
+            <h5 class="fw-bold" style="color:var(--text-primary);">Analytics Report</h5>
+            <p class="text-muted">Summary analytics report with statistics and distributions.</p>
+            <a href="{% url 'reports:public_analytics_report' subject_pk=subject.pk %}" class="btn-glow">
+                <i class="bi bi-download me-1"></i> Download Analytics (PDF)
+            </a>
+        </div>
+    </div>
+</div>
+
+<h5 class="fw-bold mt-4 mb-3" style="color:var(--text-primary);">Individual Module Reports</h5>
+<div class="row g-3">
+    {% for module in modules %}
+    <div class="col-md-4 col-6">
+        <div class="premium-card animate-entrance tilt-card" style="padding:1rem 1.25rem;">
+            <div class="d-flex justify-content-between align-items-center">
+                <strong style="color:var(--text-primary);">Module {{ module.number }}</strong>
+                <a href="{% url 'reports:module_report' subject_pk=subject.pk module_number=module.number %}" class="btn-glass" style="padding:0.3rem 0.75rem;font-size:0.8rem;">
+                    <i class="bi bi-file-pdf me-1"></i> Download
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

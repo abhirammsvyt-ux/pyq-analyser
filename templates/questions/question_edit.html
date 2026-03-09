@@ -1,0 +1,29 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Edit Classification - Q{{ object.question_number }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="premium-card animate-entrance">
+            <h4 class="fw-bold mb-3" style="color:var(--text-primary);">Edit Classification - Q{{ object.question_number }}</h4>
+            <div class="alert-dark-glass alert-info mb-3">
+                <strong>Question:</strong> {{ object.text|truncatechars:200 }}
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="mb-3">
+                    <label for="{{ field.id_for_label }}" style="display:block;font-size:0.82rem;font-weight:600;color:#374151;margin-bottom:0.4rem;">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+                {% endfor %}
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn-glow">Save Changes</button>
+                    <a href="{% url 'questions:detail' pk=object.pk %}" class="btn-glass">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

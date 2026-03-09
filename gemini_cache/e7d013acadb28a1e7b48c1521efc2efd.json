@@ -1,0 +1,248 @@
+{
+  "subject_code": "MCN202",
+  "subject_name": "Constitution of India",
+  "exam_year": 2022,
+  "exam_month": "May",
+  "questions": [
+    {
+      "q_number": 1,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 1,
+      "text": "Define Preamble of Constitution."
+    },
+    {
+      "q_number": 2,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 1,
+      "text": "List out the sources borrowed while drafting the Constitution of India."
+    },
+    {
+      "q_number": 3,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 2,
+      "text": "What is Secularism?"
+    },
+    {
+      "q_number": 4,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 2,
+      "text": "Explain Uniform Civil Code?"
+    },
+    {
+      "q_number": 5,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 3,
+      "text": "What qualifications must an individual possess to be appointed as a Supreme Court Judge?"
+    },
+    {
+      "q_number": 6,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 3,
+      "text": "Describe the constitutional emergency powers granted to the President?"
+    },
+    {
+      "q_number": 7,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 4,
+      "text": "What are the responsibilities carried out by the advocate general df the state?"
+    },
+    {
+      "q_number": 8,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 4,
+      "text": "Write short note on Ex-post facto law and No Double Jeopardy."
+    },
+    {
+      "q_number": 9,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 5,
+      "text": "What are the functions of UPSC?"
+    },
+    {
+      "q_number": 10,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 5,
+      "text": "Define National Emergency."
+    },
+    {
+      "q_number": 11,
+      "sub": "a",
+      "part": "B",
+      "marks": 10,
+      "module": 1,
+      "text": "Explain in detail the salient features of the Indian constitution."
+    },
+    {
+      "q_number": 11,
+      "sub": "b",
+      "part": "B",
+      "marks": 4,
+      "module": 1,
+      "text": "Explain the term partly rigid and partly flexible constitution."
+    },
+    {
+      "q_number": 12,
+      "sub": "a",
+      "part": "B",
+      "marks": 10,
+      "module": 1,
+      "text": "Explain the mode of acquisition and termintion of citizenship."
+    },
+    {
+      "q_number": 12,
+      "sub": "b",
+      "part": "B",
+      "marks": 4,
+      "module": 1,
+      "text": "Explain the term Union and its territory"
+    },
+    {
+      "q_number": 13,
+      "sub": "a",
+      "part": "B",
+      "marks": 10,
+      "module": 2,
+      "text": "Explain the meaning, significance and classification of the Directive Principles of State Policy."
+    },
+    {
+      "q_number": 13,
+      "sub": "b",
+      "part": "B",
+      "marks": 4,
+      "module": 2,
+      "text": "The freedom of speech and expression is subject to reasonable restrictions. Explain the statement."
+    },
+    {
+      "q_number": 14,
+      "sub": "a",
+      "part": "B",
+      "marks": 10,
+      "module": 2,
+      "text": "Explain in detail the Fundamental Rights of Indian citizens."
+    },
+    {
+      "q_number": 14,
+      "sub": "b",
+      "part": "B",
+      "marks": 4,
+      "module": 2,
+      "text": "The Indian constitution is unique in protecting the minorities. Explain?"
+    },
+    {
+      "q_number": 15,
+      "sub": "a",
+      "part": "B",
+      "marks": 10,
+      "module": 3,
+      "text": "What are the qualificationl and disqualifications that the Indian Constitution specifies for someone to become a Member of Parliament?"
+    },
+    {
+      "q_number": 15,
+      "sub": "b",
+      "part": "B",
+      "marks": 4,
+      "module": 3,
+      "text": "Mention any two powers and functions of Indian President."
+    },
+    {
+      "q_number": 16,
+      "sub": "a",
+      "part": "B",
+      "marks": 10,
+      "module": 3,
+      "text": "Explain the procedure for election and removal of the President of India."
+    },
+    {
+      "q_number": 16,
+      "sub": "b",
+      "part": "B",
+      "marks": 4,
+      "module": 3,
+      "text": "Explain Special Leave Appeal."
+    },
+    {
+      "q_number": 17,
+      "sub": "a",
+      "part": "B",
+      "marks": 10,
+      "module": 4,
+      "text": "Explain the powers and functions of Chief Minister and State Legislature in Indian constitution."
+    },
+    {
+      "q_number": 17,
+      "sub": "b",
+      "part": "B",
+      "marks": 4,
+      "module": 4,
+      "text": "What are the qualifications needed for governor?"
+    },
+    {
+      "q_number": 18,
+      "sub": "a",
+      "part": "B",
+      "marks": 10,
+      "module": 4,
+      "text": "Explain the qualifications and disqualifications of membership of the state legislature."
+    },
+    {
+      "q_number": 18,
+      "sub": "b",
+      "part": "B",
+      "marks": 4,
+      "module": 4,
+      "text": "Explain Writ of Habeas Corpus."
+    },
+    {
+      "q_number": 19,
+      "sub": "a",
+      "part": "B",
+      "marks": 10,
+      "module": 5,
+      "text": "What are the five extraordinary circumstances on which the Constitution empowers the Farliament to make laws on any maffer enumerated in the State list?"
+    },
+    {
+      "q_number": 19,
+      "sub": "b",
+      "part": "B",
+      "marks": 4,
+      "module": 5,
+      "text": "Explain any two functions of Election Commission of India."
+    },
+    {
+      "q_number": 20,
+      "sub": "a",
+      "part": "B",
+      "marks": 10,
+      "module": 5,
+      "text": "Explain three types of emergencies under Indian Constitution"
+    },
+    {
+      "q_number": 20,
+      "sub": "b",
+      "part": "B",
+      "marks": 4,
+      "module": 5,
+      "text": "What is concurrent list?"
+    }
+  ]
+}

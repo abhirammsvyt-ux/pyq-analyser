@@ -1,0 +1,176 @@
+{
+"subject_code": "MCN301",
+"subject_name": "DISASTER MANAGEMENT",
+"exam_year": 2025,
+"exam_month": "November",
+"questions": [
+{
+"q_number": 1,
+"sub": "",
+"part": "A",
+"marks": 3,
+"module": 1,
+"text": "What is the importance of hazard map in disaster risk management?"
+},
+{
+"q_number": 2,
+"sub": "",
+"part": "A",
+"marks": 3,
+"module": 1,
+"text": "What is the role of psychosocial support in disaster response?"
+},
+{
+"q_number": 3,
+"sub": "",
+"part": "A",
+"marks": 3,
+"module": 2,
+"text": "What does the term 'relief' mean in the context of disaster management?"
+},
+{
+"q_number": 4,
+"sub": "",
+"part": "A",
+"marks": 3,
+"module": 2,
+"text": "What is the importance of crisis counselling after a disaster, and how does it differ from regular counselling?"
+},
+{
+"q_number": 5,
+"sub": "",
+"part": "A",
+"marks": 3,
+"module": 3,
+"text": "term 'Participatory stakeho note on disaster management'"
+},
+{
+"q_number": 6,
+"sub": "",
+"part": "A",
+"marks": 3,
+"module": 3,
+"text": "aster related with Tsunam"
+},
+{
+"q_number": 7,
+"sub": "",
+"part": "A",
+"marks": 3,
+"module": 4,
+"text": "tes cyclone and anticyclone"
+},
+{
+"q_number": 8,
+"sub": "",
+"part": "A",
+"marks": 3,
+"module": 4,
+"text": "e on types of hazard"
+},
+{
+"q_number": 9,
+"sub": "",
+"part": "A",
+"marks": 3,
+"module": 5,
+"text": "core elements of disaster"
+},
+{
+"q_number": 10,
+"sub": "",
+"part": "A",
+"marks": 3,
+"module": 5,
+"text": "ainQbjectivesofdisastermitigtiQa"
+},
+{
+"q_number": 11,
+"sub": "a",
+"part": "B",
+"marks": 7,
+"module": 1,
+"text": "Describe about types of early waming systems"
+},
+{
+"q_number": 11,
+"sub": "b",
+"part": "B",
+"marks": 7,
+"module": 1,
+"text": "Explain about the disaster mitigation"
+},
+{
+"q_number": 12,
+"sub": "",
+"part": "B",
+"marks": 14,
+"module": 1,
+"text": "xplain about disaster vulnerability"
+},
+{
+"q_number": 13,
+"sub": "",
+"part": "B",
+"marks": 14,
+"module": 2,
+"text": "e on types of hazard"
+},
+{
+"q_number": 14,
+"sub": "",
+"part": "B",
+"marks": 14,
+"module": 2,
+"text": "Module -2"
+},
+{
+"q_number": 15,
+"sub": "",
+"part": "B",
+"marks": 14,
+"module": 3,
+"text": "core elements of disaster"
+},
+{
+"q_number": 16,
+"sub": "",
+"part": "B",
+"marks": 14,
+"module": 3,
+"text": "ainQbjectivesofdisastermitigtiQa"
+},
+{
+"q_number": 17,
+"sub": "",
+"part": "B",
+"marks": 14,
+"module": 4,
+"text": "tes cyclone and anticyclone"
+},
+{
+"q_number": 18,
+"sub": "",
+"part": "B",
+"marks": 14,
+"module": 4,
+"text": "e on types of hazard"
+},
+{
+"q_number": 19,
+"sub": "",
+"part": "B",
+"marks": 14,
+"module": 5,
+"text": "What is the importance of hazard map in disaster risk management?"
+},
+{
+"q_number": 20,
+"sub": "",
+"part": "B",
+"marks": 14,
+"module": 5,
+"text": "What is the role of psychosocial support in disaster response?"
+}
+]
+}

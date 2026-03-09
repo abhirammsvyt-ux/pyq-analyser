@@ -1,0 +1,176 @@
+{
+  "subject_code": "0200McN202t2230t",
+  "subject_name": "Constitution of India",
+  "exam_year": 2021,
+  "exam_month": "November",
+  "questions": [
+    {
+      "q_number": 1,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 1,
+      "text": "Define the term \"Constitution\" and explain its significance in the Indian context."
+    },
+    {
+      "q_number": 2,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 1,
+      "text": "Explain the role of the Preamble in serving as the guiding spirit of the Constitution."
+    },
+    {
+      "q_number": 3,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 2,
+      "text": "Define the term \"State\" in the Constitutional context. List and briefly explain any two fundamental rights granted to Indian citizens."
+    },
+    {
+      "q_number": 4,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 2,
+      "text": "What protection are available to the Indian Citizen against conviction?"
+    },
+    {
+      "q_number": 5,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 3,
+      "text": "What are the Constitutional provisions and procedures outlined in the Indian Constitution for the impeachment of the President of India?"
+    },
+    {
+      "q_number": 6,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 3,
+      "text": "Discuss the circumstances under which Supreme Court of India may grant Special Leave to Appeal."
+    },
+    {
+      "q_number": 7,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 4,
+      "text": "Discuss the appointment and removal of Governor."
+    },
+    {
+      "q_number": 8,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 4,
+      "text": "Suppose a state legislature passes a law that is potentially in violation of fundamental rights. Analyse the legal avenues available to challenge such legislation."
+    },
+    {
+      "q_number": 9,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 5,
+      "text": "Differentiate between Union list, State list and Concurrent list."
+    },
+    {
+      "q_number": 10,
+      "sub": "",
+      "part": "A",
+      "marks": 3,
+      "module": 5,
+      "text": "Evaluate the role of Comptroller and Auditor General in ensuring financial accountability."
+    },
+    {
+      "q_number": 11,
+      "sub": "a",
+      "part": "B",
+      "marks": 7,
+      "module": 1,
+      "text": "Provide a comprehensive overview of the historical background leading to the adoption of the Constitution of India."
+    },
+    {
+      "q_number": 11,
+      "sub": "b",
+      "part": "B",
+      "marks": 7,
+      "module": 1,
+      "text": "List and explain the salient features of the Constitution of India."
+    },
+    {
+      "q_number": 12,
+      "sub": "a",
+      "part": "B",
+      "marks": 7,
+      "module": 1,
+      "text": "Explain the concept of citizenship in India. Discuss the provisions for acquiring and losing citizenship according to the Constitution."
+    },
+    {
+      "q_number": 12,
+      "sub": "b",
+      "part": "B",
+      "marks": 7,
+      "module": 1,
+      "text": "Analyse a hypothetical scenario where a new territory seeks to join the Indian Union. Discuss the Constitutional provisions and processes involved."
+    },
+    {
+      "q_number": 13,
+      "sub": "a",
+      "part": "B",
+      "marks": 7,
+      "module": 2,
+      "text": "Differentiate between Fundamental Rights and Directive Principles of state Policy. Provide examples of each."
+    },
+    {
+      "q_number": 13,
+      "sub": "b",
+      "part": "B",
+      "marks": 7,
+      "module": 2,
+      "text": "Explain Right against exploitation and Right to Constitutional Remedies."
+    },
+    {
+      "q_number": 14,
+      "sub": "a",
+      "part": "B",
+      "marks": 6,
+      "module": 2,
+      "text": "Discuss the different groups under which Directive Principles of State Policy can be categorized."
+    },
+    {
+      "q_number": 14,
+      "sub": "b",
+      "part": "B",
+      "marks": 8,
+      "module": 2,
+      "text": "Enumerate the fundamental duties and discuss their significance."
+    },
+    {
+      "q_number": 15,
+      "sub": "a",
+      "part": "B",
+      "marks": 9,
+      "module": 3,
+      "text": "Provide an in-depth overview of the Union executive, emphasizing the roles of President and Prime minister."
+    },
+    {
+      "q_number": 15,
+      "sub": "b",
+      "part": "B",
+      "marks": 5,
+      "module": 3,
+      "text": "Discuss the qualifications, election process, term of office and powers and functions of the Vice President as outlined in the Indian Constitution."
+    },
+    {
+      "q_number": 16,
+      "sub": "a",
+      "part": "B",
+      "marks": 9,
+      "module": 3,
+      "text": "Discuss the provisions in the Indian constitution regarding the composition and functioning of the Parliament."
+    }
+  ]
+}
